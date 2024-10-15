@@ -232,3 +232,27 @@ body {
   background-color: #444;
   color: white;
 }
+
+/* Fade-in and slide animation for new content */
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comment, .description {
+  opacity: 0;
+  transform: translateY(20px); /* Starting point for animation */
+  animation: fadeInSlideUp 0.5s ease forwards;
+}
+
+.comment.show, .description.show {
+  opacity: 1;
+  transform: translateY(0); /* Ending point for animation */
+}
+

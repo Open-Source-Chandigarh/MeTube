@@ -118,12 +118,20 @@ function toggleDescription() {
   const descriptionElement = document.getElementById('descriptionContainer');
   isDescriptionVisible = !isDescriptionVisible;
   descriptionElement.style.display = isDescriptionVisible ? 'block' : 'none';
+
+  requestAnimationFrame(() => {
+    description.classList.add('show');
+  });
 }
 
 function toggleComments() {
   const commentContainer = document.getElementById('commentContainer');
   isCommentVisible = !isCommentVisible;
   commentContainer.style.display = isCommentVisible ? 'block' : 'none';
+
+  requestAnimationFrame(() => {
+    description.classList.add('show');
+  });
 }
 
 let isDarkMode = false;
@@ -162,6 +170,10 @@ function displayComments(videoId) {
       console.error('Error fetching comments:', error);
       alert('An error occurred while fetching comments.');
     });
+
+    requestAnimationFrame(() => {
+      description.classList.add('show');
+    });
 }
 
 function showComments() {
@@ -173,4 +185,8 @@ function showComments() {
     displayComments(videoId);
     commentContainer.style.display = 'block';
   }
+
+  requestAnimationFrame(() => {
+    description.classList.add('show');
+  });
 }
