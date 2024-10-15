@@ -245,13 +245,13 @@ body {
   }
 }
 
-.comment, .description {
+#descriptionContainer, #commentContainer {
   opacity: 0;
   transform: translateY(20px); /* Starting point for animation */
   animation: fadeInSlideUp 0.5s ease forwards;
 }
 
-.comment.show, .description.show {
+#commentContainer.show, #descriptionContainer.show {
   opacity: 1;
   transform: translateY(0); /* Ending point for animation */
 }
