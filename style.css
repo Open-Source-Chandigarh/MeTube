@@ -4,20 +4,18 @@ body {
   padding: 0;
   background-color: #f9f9f9;
   color: #333;
-
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .heading {
   text-align: center;
   color: #ff0000;
-
   margin-top: 20px;
 }
 
 .search-container {
   text-align: center;
   margin-top: 20px;
-
 }
 
 .search-container input[type="text"] {
@@ -25,7 +23,6 @@ body {
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
-
   margin-right: 1px;
   margin-bottom: 20px;
   box-sizing: border-box;
@@ -43,7 +40,7 @@ body {
 .video-container {
   margin: 0 auto;
   max-width: 600px;
-  padding: 0 10px; 
+  padding: 0 10px;
 }
 
 #videoWrapper {
@@ -60,7 +57,7 @@ body {
   height: 100%;
 }
 
-#videoTitle{
+#videoTitle {
   text-align: center;
   margin-top: 20px;
 }
@@ -78,9 +75,7 @@ body {
   padding: 10px;
   border-radius: 5px;
   background-color: #fff;
-
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-
   cursor: pointer;
 }
 
@@ -97,62 +92,56 @@ body {
 
 .description-container {
   margin: 0 auto;
-  max-width: 800px; 
+  max-width: 800px;
   padding: 10px;
+  transition: all 0.5s;
 }
 
 #descriptionContainer {
   display: none;
   background-color: #fff;
-
   border-radius: 5px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-
   overflow-wrap: break-word;
+  transition: all 0.5s;
 }
 
 #toggleDescriptionButton {
   display: block;
   margin: 20px auto;
   color: red;
-  
   background-color: transparent;
- 
+  border: none;
+  border-radius: 5px;
+  padding: 5px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+#commentContainer {
+  display: none;
+  margin: 0 auto;
+  margin-top: 20px;
+  max-width: 800px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-wrap: break-word;
+}
+
+#toggleCommentButton {
+  display: block;
+  margin: 20px auto;
+  background-color: transparent;
+  color: red;
   border: none;
   border-radius: 5px;
   padding: 5px 20px;
   font-size: 16px;
   cursor: pointer;
 }
-
-
-#commentContainer{
-  display: none;
-  margin: 0 auto;
-  margin-top: 20px;
-  max-width: 800px; 
-  padding: 10px;
-  background-color: #fff;
-
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-
-  overflow-wrap: break-word;
-}
-
-
-#toggleCommentButton {
-    display: block;
-    margin: 20px auto;
-    background-color: transparent;
-    color: red; 
-    border: none;
-    border-radius: 5px;
-    padding: 5px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
 
 #toggleDarkModeButton {
   position: absolute;
@@ -163,12 +152,13 @@ body {
   padding: 0;
   cursor: pointer;
   transition: filter 0.3s;
-  border-radius: 50%; 
+  border-radius: 50%;
   width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.5s ease, filter 0.3s ease;
 }
 
 #toggleDarkModeButton:hover {
@@ -180,55 +170,71 @@ body {
 }
 
 .cdButtons button {
-  margin-right: 10px; 
+  margin-right: 10px;
 }
-
 
 .dark-mode {
   background-color: #222;
-
   color: #fff;
-
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .dark-mode .heading {
   color: #ff0000;
-
+  transition: color 0.5s ease;
 }
 
 .dark-mode .search-container input[type="text"] {
   background-color: #444;
-
   color: white;
-
   border-color: #666;
-
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .dark-mode .search-container button {
-  background-color: #ff0000;}
+  background-color: #ff0000;
+}
 
 .dark-mode .result-item {
   background-color: #444;
-
   box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
-
 }
-
 
 .dark-mode #toggleDarkModeButton {
   color: white;
-
-
 }
 
 .dark-mode #descriptionContainer {
   background-color: #444;
   color: white;
-
 }
 
-.dark-mode #commentContainer{
+.dark-mode #commentContainer {
   background-color: #444;
   color: white;
+}
+
+@keyframes fadeInSlideUp {
+  0% {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+#commentContainer,
+#descriptionContainer {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInSlideUp 0.5s ease forwards;
+}
+
+.comment.show,
+.description.show {
+  opacity: 1;
+  transform: translateY(0);
 }
