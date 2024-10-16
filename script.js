@@ -168,3 +168,14 @@ function showComments() {
     commentContainer.style.display = 'block';
   }
 }
+
+//adding search functionality by pressing enter key
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('searchInput');
+
+  searchInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      searchVideos();
+    }
+  });
+});
