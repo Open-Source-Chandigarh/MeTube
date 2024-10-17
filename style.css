@@ -256,3 +256,156 @@ body {
   transform: translateY(0); /* Ending point for animation */
 }
 
+@media screen and (max-width: 1024px) {
+  .navbar {
+    padding: 8px 15px;
+  }
+
+  .heading {
+    font-size: 1.8rem;
+  }
+
+  .search-container input[type="text"] {
+    width: 250px;
+  }
+
+  .video-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left-content,
+  .right-content {
+    flex: 1;
+    width: 100%;
+  }
+
+  .video-container {
+    width: 100%;
+  }
+
+  .cdButtons {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .description-comment-section {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+  }
+
+  #descriptionContainer,
+  #commentContainer {
+    width: 100%;
+  }
+
+  .result-item {
+    width: 100%;
+  }
+
+  #toggleDarkModeButton {
+    right: 20px;
+  }
+}
+
+/* Media query for mobile screens 320px wide */
+@media screen and (max-width: 320px) {
+  /* Navbar adjustments */
+  .navbar {
+    flex-direction: column; /* Stack navbar items */
+    align-items: center;
+    padding: 10px;
+  }
+
+  .heading {
+    font-size: 24px; /* Reduce heading size */
+    margin-bottom: 10px;
+  }
+
+  .search-container {
+    display: flex;
+    flex-direction: column; /* Stack search input and button */
+    width: 100%;
+    align-items: center;
+  }
+
+  #searchInput {
+    width: 90%; /* Full width for input */
+    margin-bottom: 5px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  #searchButton {
+    width: 50%;
+    font-size: 14px;
+  }
+
+  #toggleDarkModeButton {
+    margin-top: -4px; /* Add space below search */
+  }
+
+  /* Video section adjustments */
+  .video-section {
+    flex-direction: column; /* Stack video and content */
+    padding: 10px;
+  }
+
+  .video-container {
+    width: 100%; /* Make video container full width */
+  }
+
+  #videoWrapper iframe {
+    width: 100%;
+    height: auto;
+  }
+
+  .right-content {
+    margin-top: 10px; /* Space between video and right content */
+  }
+
+  .cdButtons {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+  }
+
+  .description-comment-section {
+    display: block; /* Ensure descriptions and comments stack */
+    width: 90%; /* Full width for descriptions and comments */
+    max-height: 120px; /* Adjust max height for better scrolling */
+    overflow: hidden;
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+
+  /* Search results adjustments */
+  .search-results {
+    display: grid;
+    grid-template-columns: 1fr; /* One video per row */
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .result-item {
+    width: 100%; /* Full width for each video */
+    height: auto;
+    margin-left: -10px;
+  }
+
+  .result-item img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Adjust font sizes */
+  .video-title {
+    font-size: 16px; /* Adjust for smaller screens */
+  }
+
+  p,
+  button,
+  input {
+    font-size: 14px; /* Reduce font size globally for small screens */
+  }
+}
