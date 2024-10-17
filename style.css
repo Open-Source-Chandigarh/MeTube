@@ -233,7 +233,6 @@ body {
   color: white;
 }
 
-/* Fade-in and slide animation for new content */
 @keyframes fadeInSlideUp {
   0% {
     opacity: 0;
