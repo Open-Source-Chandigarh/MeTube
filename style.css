@@ -282,6 +282,29 @@ body {
   filter: brightness(1.2);
 }
 
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#descriptionContainer, #commentContainer {
+  opacity: 0;
+  transform: translateY(20px); /* Starting point for animation */
+  animation: fadeInSlideUp 0.5s ease forwards;
+}
+
+#commentContainer.show, #descriptionContainer.show {
+  opacity: 1;
+  transform: translateY(0); /* Ending point for animation */
+}
+
+
 .dark-mode #toggleDarkModeButton {
   background-color: transparent; /* Keep the background of the button transparent */
   border: none;
