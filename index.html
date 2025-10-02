@@ -28,6 +28,9 @@
 <body>
     <nav class="navbar">
         <h1 class="heading">MeTube</h1>
+        <button id="navToggle" aria-label="Toggle navigation" onclick="toggleNav()">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Search for Video">
             <button id="searchButton" onclick="searchVideos()">Search</button>
@@ -90,32 +93,30 @@
         <div id="searchResults" class="search-results"></div>
     </div>
 
-    <footer style="background-color: #b30b0b; color: #ffffff; padding: 20px 0; text-align: center;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-          <div style="margin-bottom: 10px;">
-            <p style="margin: 0; font-size: 1.2em;">&copy; MeTube</p>
-            <p style="margin: 0;">All rights reserved</p>
-          </div>
-          <div style="margin-top: 10px;">
-            <a href="#" style="color: #ffffff; margin: 0 10px; text-decoration: none;">Privacy Policy</a>
-            <a href="#" style="color: #ffffff; margin: 0 10px; text-decoration: none;">Terms of Service</a>
-            <a href="#" style="color: #ffffff; margin: 0 10px; text-decoration: none;">Contact Us</a>
-          </div>
-          <div style="margin-top: 20px;">
-            <a href="https://facebook.com" target="_blank" style="color: #ffffff; margin: 0 5px; text-decoration: none;">
-                <img src="./assets/facebook.png"  alt="facebook logo" height="2%" width="2%">
-            </a>
-
-            <a href="https://twitter.com" target="_blank" style="color: #ffffff; margin: 0 5px; text-decoration: none;">
-            <img src="./assets/twitter.png"  alt="x logo" height="2%" width="2%">
-            </a>
-
-            <a href="https://instagram.com" target="_blank" style="color: #ffffff; margin: 0 5px; text-decoration: none;">
-                <img src="./assets/instagram.png"  alt="instagram logo" height="2%" width="2%">
-            </a>
-          </div>
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <p>&copy; MeTube</p>
+                <p>All rights reserved</p>
+            </div>
+            <nav class="footer-links" aria-label="Footer">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </nav>
+            <div class="social-links">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <img src="./assets/facebook.png" alt="Facebook">
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="X/Twitter">
+                    <img src="./assets/twitter.png" alt="X/Twitter">
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <img src="./assets/instagram.png" alt="Instagram">
+                </a>
+            </div>
         </div>
-      </footer>
+    </footer>
 
 
     <script src="script.js"></script>

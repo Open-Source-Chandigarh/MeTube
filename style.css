@@ -12,6 +12,21 @@ body {
   flex-direction: column;
 }
 
+/* Fluid layout and media defaults */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+iframe {
+  max-width: 100%;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -24,11 +39,13 @@ body {
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .heading {
   font-family: "Montserrat", sans-serif;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2vw + 1rem, 2rem);
   color: #ff0000;
   letter-spacing: 2px;
   margin: 0;
@@ -38,11 +55,13 @@ body {
 .search-container {
   display: flex;
   align-items: center;
-  flex: 2;
+  flex: 1 1 420px;
+  gap: 10px;
 }
 
 .search-container input[type="text"] {
-  width: 350px;
+  width: 100%;
+  max-width: 480px;
   padding: 12px 20px;
   border-radius: 25px;
   border: 2px solid rgba(0, 0, 0, 0.1);
@@ -68,7 +87,7 @@ body {
   color: white;
   font-size: 16px;
   font-weight: 500;
-  margin-left: 10px;
+  margin-left: 10px; /* overridden on small screens */
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
@@ -136,7 +155,7 @@ body {
 }
 
 #videoTitle {
-  font-size: 1.5rem;
+  font-size: clamp(1.125rem, 1.2vw + 0.9rem, 1.75rem);
   font-weight: 600;
   line-height: 1.3;
   margin: 0;
@@ -312,6 +331,60 @@ footer {
   box-shadow: 0 -4px 20px rgba(179, 11, 11, 0.3);
 }
 
+/* Footer layout */
+.site-footer {
+  color: #ffffff;
+  padding: 20px 0;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-brand p {
+  margin: 0;
+}
+
+.footer-links a {
+  color: #ffffff;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6px;
+}
+
+.social-links img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 768px) {
+  .footer-inner {
+    justify-content: center;
+    text-align: center;
+  }
+  .footer-links {
+    width: 100%;
+  }
+}
+
 /* Main content wrapper */
 .main-content {
   flex: 1;
@@ -337,8 +410,9 @@ footer {
 
 .result-item img {
   width: 100%;
-  height: 180px;
-  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover; /* keeps thumbs neat while remaining fluid */
 }
 
 .result-item p {
@@ -370,6 +444,22 @@ footer {
   justify-content: center;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
+
+/* Mobile nav toggle button */
+#navToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#navToggle .material-symbols-outlined { font-size: 28px; color: #333; }
+.dark-mode #navToggle .material-symbols-outlined { color: #fff; }
 
 #toggleDarkModeButton:hover {
   transform: translateY(-2px);
@@ -460,15 +550,17 @@ footer {
 @media screen and (max-width: 1024px) {
   .navbar {
     padding: 8px 15px;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
   .heading {
     font-size: 1.8rem;
   }
 
-  .search-container input[type="text"] {
-    width: 250px;
-  }
+  .search-container { flex: 1 1 100%; }
+  .search-container input[type="text"] { max-width: 100%; }
+  .search-container button { margin-left: 0; }
 
   .video-section {
     grid-template-columns: 1fr;
@@ -525,16 +617,13 @@ footer {
   }
 
   #searchInput {
-    width: 90%; /* Full width for input */
+    width: 100%;
     margin-bottom: 5px;
-    padding: 8px;
+    padding: 10px 14px;
     font-size: 14px;
   }
 
-  #searchButton {
-    width: 50%;
-    font-size: 14px;
-  }
+  #searchButton { width: 100%; font-size: 14px; }
 
   #toggleDarkModeButton {
     margin-top: -4px; /* Add space below search */
@@ -577,9 +666,7 @@ footer {
     padding: 1rem;
   }
 
-  .result-item img {
-    height: 150px;
-  }
+  .result-item img { aspect-ratio: 16 / 9; height: auto; }
 
   .filter-buttons {
     padding: 1rem;
@@ -596,11 +683,15 @@ footer {
     font-size: 16px; /* Adjust for smaller screens */
   }
 
-  p,
-  button,
-  input {
-    font-size: 14px; /* Reduce font size globally for small screens */
-  }
+  p, button, input { font-size: 14px; }
+}
+
+/* Mobile-first collapsible nav at <= 768px */
+@media screen and (max-width: 768px) {
+  #navToggle { display: inline-flex; }
+  .search-container { display: none; width: 100%; }
+  .search-container.open { display: flex; }
+  .navbar { align-items: center; }
 }
 
 /* Filter Section  */

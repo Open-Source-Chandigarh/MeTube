@@ -83,7 +83,6 @@ function playVideo(videoId) {
   updateDescription(videoId); // Update the video description
   showButtons(); // Show buttons when video is selected
 
-  const videoSection = document.querySelector('.video-section');
   if (videoSection) {
     videoSection.scrollIntoView({ 
       behavior: 'smooth', 
@@ -158,6 +157,11 @@ function toggleDarkMode() {
   const darkModeIcon = document.getElementById('darkModeIcon');
   body.classList.toggle("dark-mode");
   darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
+}
+
+function toggleNav() {
+  const searchContainer = document.querySelector('.search-container');
+  searchContainer.classList.toggle('open');
 }
 
 
