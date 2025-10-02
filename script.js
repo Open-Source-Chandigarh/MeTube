@@ -1,54 +1,78 @@
+// Constants (keep API key and endpoints)
 const API_KEY = 'AIzaSyCQqvQhNs-lX7KoUCErol_05C5pM15YCRQ';
 const SEARCH_ENDPOINT = 'https://www.googleapis.com/youtube/v3/search';
+
+// Default video to show initially (popular YouTube API demo video)
+const DEFAULT_VIDEO_ID = 'M7lc1UVf-VE'; // YouTube IFrame API demo video [Google sample]
+
+// UI state
 let isDescriptionVisible = true;
 let isCommentVisible = false;
 
+// Category dropdown handler
+function onCategoryChange(value) {
+  // Trigger a search filtered by category keyword
+  searchVideos(value);
+}
+
+// Search videos
 function searchVideos(category = '') {
   const searchInput = document.getElementById('searchInput').value;
-  document.getElementById('videoPlayer').src = '';
-  document.getElementById('searchResults').innerHTML = '';
-  document.getElementById('videoTitle').innerText = ''; // Clear video title
-  document.getElementById('descriptionContainer').style.display = 'none'; // Hide description container
-  document.getElementById('commentContainer').style.display = 'none'; // Hide comment container
-  hideButtons(); // Hide buttons
+  const results = document.getElementById('searchResults');
+  const titleEl = document.getElementById('videoTitle');
+  const descEl = document.getElementById('descriptionContainer');
+  const commEl = document.getElementById('commentContainer');
+
+  // Reset results and hide panels until a video is chosen
+  results.innerHTML = '';
+  titleEl.innerText = '';
+  descEl.style.display = 'none';
+  commEl.style.display = 'none';
+  hideButtons();
 
   let query = searchInput;
   if (category && category !== 'all') {
-    query = category; // Override the search query if a category is selected
+    query = category;
   }
 
-  // Make API request to search for videos
-  fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=10&q=${query}&type=video&key=${API_KEY}`)
-    .then(response => response.json())
+  fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=10&q=${encodeURIComponent(query)}&type=video&key=${API_KEY}`)
+    .then(res => res.json())
     .then(data => {
-      if (data.items.length > 0) {
-        // Display search results
-        const resultsContainer = document.getElementById('searchResults');
+      if (data.items && data.items.length > 0) {
         data.items.forEach(item => {
           const videoId = item.id.videoId;
           const title = item.snippet.title;
+          const thumb = item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url || '';
+          const channel = item.snippet.channelTitle || '';
 
-          // Create result item
           const resultItem = document.createElement('div');
-          resultItem.classList.add('result-item');
+          resultItem.classList.add('card');
           resultItem.innerHTML = `
-            <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail">
-            <p>${title}</p>
+            <img class="thumb" src="${thumb}" alt="Thumbnail">
+            <div class="info">
+              <h3 class="title">${title}</h3>
+              <div class="sub">${channel}</div>
+            </div>
           `;
           resultItem.addEventListener('click', () => playVideo(videoId));
-          resultsContainer.appendChild(resultItem);
+          results.appendChild(resultItem);
         });
       } else {
-        alert('No videos found.');
+        results.innerHTML = '<div class="empty">No videos found. Try another search or category.</div>';
       }
     })
-    .catch(error => {
-      console.error('Error fetching data:', error);
+    .catch(err => {
+      console.error('Error fetching data:', err);
       alert('An error occurred while fetching data.');
     });
 }
 
+// Initialize with a default video so container is never blank
+function initDefaultVideo() {
+  playVideo(DEFAULT_VIDEO_ID, { showCommentsAfter: true });
+}
 
+// Hide Description/Comments buttons
 function hideButtons() {
   const descriptionButton = document.getElementById('toggleDescriptionButton');
   const commentButton = document.getElementById('toggleCommentButton');
@@ -56,26 +80,39 @@ function hideButtons() {
   commentButton.style.display = 'none';
 }
 
-hideButtons();
-
-function playVideo(videoId) {
-  const videoUrl = `https://www.youtube.com/embed/${videoId}`;
-  document.getElementById('videoPlayer').src = videoUrl;
-  updateVideoTitle(videoId); // Update the video title
-  updateDescription(videoId); // Update the video description
-  showButtons(); // Show buttons when video is selected
+// Show Description/Comments buttons
+function showButtons() {
+  const descriptionButton = document.getElementById('toggleDescriptionButton');
+  const commentButton = document.getElementById('toggleCommentButton');
+  descriptionButton.style.display = 'inline-flex';
+  commentButton.style.display = 'inline-flex';
 }
 
+// Load a video into the player and populate title/description; optionally load comments immediately
+function playVideo(videoId, options = {}) {
+  const { showCommentsAfter = false } = options;
+  const iframe = document.getElementById('videoPlayer');
+  iframe.src = `https://www.youtube.com/embed/${videoId}`;
+  updateVideoTitle(videoId);
+  updateDescription(videoId);
+  showButtons();
+  setTab('desc');
 
+  if (showCommentsAfter) {
+    displayComments(videoId);
+  }
+}
+
+// Fetch and set the video title
 function updateVideoTitle(selectedVideoId) {
   fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${selectedVideoId}&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
-      if (data.items.length > 0) {
-        const title = data.items[0].snippet.title;
-        document.getElementById('videoTitle').innerText = title; // Set the video title
+      const titleEl = document.getElementById('videoTitle');
+      if (data.items && data.items.length > 0) {
+        titleEl.innerText = data.items[0].snippet.title || '';
       } else {
-        document.getElementById('videoTitle').innerText = ''; // Clear video title if no data found
+        titleEl.innerText = '';
       }
     })
     .catch(error => {
@@ -84,28 +121,31 @@ function updateVideoTitle(selectedVideoId) {
     });
 }
 
-
-function showButtons() {
-  const descriptionButton = document.getElementById('toggleDescriptionButton');
-  const commentButton = document.getElementById('toggleCommentButton');
-  descriptionButton.style.display = 'block';
-  commentButton.style.display = 'block';
-}
-
+// Fetch and show description and meta
 function updateDescription(selectedVideoId) {
   fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${selectedVideoId}&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
-      if (data.items.length > 0) {
-        const description = data.items[0].snippet.description;
-        const descriptionContainer = document.getElementById('descriptionContainer');
-        if (description) {
-          descriptionContainer.innerHTML = `<h3>Description Box:</h3><p>${description}</p>`;
-          descriptionContainer.style.display = 'block'; // Display description container
-        } else {
-          descriptionContainer.innerHTML = '<p>No description available.</p>';
-          descriptionContainer.style.display = 'none'; // Hide description container if no description
-        }
+      const descriptionContainer = document.getElementById('descriptionContainer');
+      if (data.items && data.items.length > 0) {
+        const snip = data.items[0].snippet || {};
+        const description = snip.description || '';
+        const channelTitle = snip.channelTitle || '';
+        const publishedAt = snip.publishedAt ? new Date(snip.publishedAt).toLocaleString() : '';
+
+        descriptionContainer.innerHTML = `
+          <h3 style="margin:0 0 8px 0;">Description</h3>
+          <div class="meta">
+            <span>${channelTitle}</span>
+            <span>•</span>
+            <span>${publishedAt}</span>
+          </div>
+          <p style="white-space:pre-wrap;margin-top:8px;">${description || 'No description available.'}</p>
+        `;
+        descriptionContainer.style.display = 'block';
+      } else {
+        descriptionContainer.innerHTML = '<p>No description available.</p>';
+        descriptionContainer.style.display = 'block';
       }
     })
     .catch(error => {
@@ -114,47 +154,97 @@ function updateDescription(selectedVideoId) {
     });
 }
 
+// Tabs between Description/Comments
+function setTab(tab) {
+  const descBtn = document.getElementById('toggleDescriptionButton');
+  const commBtn = document.getElementById('toggleCommentButton');
+  const desc = document.getElementById('descriptionContainer');
+  const comm = document.getElementById('commentContainer');
+
+  if (tab === 'desc') {
+    descBtn.classList.add('is-active');
+    commBtn.classList.remove('is-active');
+    descBtn.setAttribute('aria-selected', 'true');
+    commBtn.setAttribute('aria-selected', 'false');
+    desc.style.display = 'block';
+    comm.style.display = 'none';
+    isDescriptionVisible = true;
+    isCommentVisible = false;
+  } else {
+    commBtn.classList.add('is-active');
+    descBtn.classList.remove('is-active');
+    commBtn.setAttribute('aria-selected', 'true');
+    descBtn.setAttribute('aria-selected', 'false');
+    desc.style.display = 'none';
+    comm.style.display = 'block';
+    isDescriptionVisible = false;
+    isCommentVisible = true;
+  }
+}
 
 function toggleDescription() {
-  const descriptionElement = document.getElementById('descriptionContainer');
-  isDescriptionVisible = !isDescriptionVisible;
-  descriptionElement.style.display = isDescriptionVisible ? 'block' : 'none';
+  setTab('desc');
 }
 
+// For backward compatibility if referenced elsewhere
 function toggleComments() {
-  const commentContainer = document.getElementById('commentContainer');
-  isCommentVisible = !isCommentVisible;
-  commentContainer.style.display = isCommentVisible ? 'block' : 'none';
+  setTab('comm');
 }
 
-function toggleDarkMode() {
-  const body = document.body;
-  const darkModeIcon = document.getElementById('darkModeIcon');
-  body.classList.toggle("dark-mode");
-  darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
+// Toggle and load comments
+function showComments() {
+  const videoId = getVideoIdFromPlayer();
+  if (!videoId) {
+    alert('Please select a video first.');
+    return;
+  }
+  setTab('comm');
+  displayComments(videoId);
 }
 
-
+// Get current video ID from iframe URL
 function getVideoIdFromPlayer() {
   const videoPlayer = document.getElementById('videoPlayer');
   const videoUrl = videoPlayer.src;
-  const videoId = videoUrl.split('/').pop();
-  return videoId;
+  if (!videoUrl) return '';
+  const parts = videoUrl.split('/embed/');
+  return parts[1]?.split('?')[0] || '';
 }
 
+// Fetch top-level comments via commentThreads.list
 function displayComments(videoId) {
-  fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&key=${API_KEY}`)
+  fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&maxResults=10&videoId=${videoId}&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
-      const firstComment = data.items[0];
       const commentContainer = document.getElementById('commentContainer');
-      if (firstComment) {
-        const commentText = firstComment.snippet.topLevelComment.snippet.textDisplay;
-        commentContainer.innerHTML = `<h3>Pinned Comment:</h3><p>${commentText}</p>`;
+      if (data.items && data.items.length > 0) {
+        const list = data.items.map(item => {
+          const c = item.snippet.topLevelComment.snippet;
+          const author = c.authorDisplayName || 'User';
+          const avatar = c.authorProfileImageUrl || '';
+          const text = c.textDisplay || '';
+          const likes = typeof c.likeCount === 'number' ? c.likeCount : 0;
+          const time = c.publishedAt ? new Date(c.publishedAt).toLocaleString() : '';
+
+          return `
+            <div class="comment">
+              <img class="avatar" src="${avatar}" alt="${author}">
+              <div class="content">
+                <div class="meta"><strong>${author}</strong><span>${time}</span><span>👍 ${likes}</span></div>
+                <div class="text">${text}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        commentContainer.innerHTML = `
+          <h3 style="margin:0 0 8px 0;">Comments</h3>
+          ${list}
+        `;
         commentContainer.style.display = 'block';
       } else {
-        commentContainer.innerHTML = '<p>No comments found.</p>';
-        commentContainer.style.display = 'none';
+        commentContainer.innerHTML = '<p>No comments found for this video.</p>';
+        commentContainer.style.display = 'block';
       }
     })
     .catch(error => {
@@ -163,24 +253,26 @@ function displayComments(videoId) {
     });
 }
 
-function showComments() {
-  const commentContainer = document.getElementById('commentContainer');
-  if (commentContainer.style.display === 'block') {
-    commentContainer.style.display = 'none';
-  } else {
-    const videoId = getVideoIdFromPlayer();
-    displayComments(videoId);
-    commentContainer.style.display = 'block';
-  }
+// Dark mode toggle
+function toggleDarkMode() {
+  const body = document.body;
+  const darkModeIcon = document.getElementById('darkModeIcon');
+  body.classList.toggle("dark-mode");
+  darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
 }
 
-//adding search functionality by pressing enter key
+// Enter to search
 document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('searchInput');
-
   searchInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       searchVideos();
     }
   });
+
+  // Ensure buttons are hidden until a video is shown
+  hideButtons();
+
+  // Load the default video so the container is not blank
+  initDefaultVideo();
 });
