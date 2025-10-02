@@ -19,27 +19,26 @@ function searchVideos(category = '') {
   document.getElementById('videoPlayer').src = '';
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('videoTitle').innerText = ''; // Clear video title
-  document.getElementById('descriptionContainer').style.display = 'none'; // Hide description container
-  document.getElementById('commentContainer').style.display = 'none'; // Hide comment container
-  hideButtons(); // Hide buttons
+  document.getElementById('descriptionContainer').style.display = 'none'; 
+  document.getElementById('commentContainer').style.display = 'none'; 
+  hideButtons(); 
 
   let query = searchInput;
   if (category && category !== 'all') {
-    query = category; // Override the search query if a category is selected
+    query = category;
   }
 
-  // Make API request to search for videos
+  // API request
   fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=10&q=${query}&type=video&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
       if (data.items.length > 0) {
-        // Display search results
         const resultsContainer = document.getElementById('searchResults');
+        resultsContainer.innerHTML = ''; // clear old results
         data.items.forEach(item => {
           const videoId = item.id.videoId;
           const title = item.snippet.title;
 
-          // Create result item
           const resultItem = document.createElement('div');
           resultItem.classList.add('result-item');
           resultItem.innerHTML = `
@@ -59,12 +58,9 @@ function searchVideos(category = '') {
     });
 }
 
-
 function hideButtons() {
-  const descriptionButton = document.getElementById('toggleDescriptionButton');
-  const commentButton = document.getElementById('toggleCommentButton');
-  descriptionButton.style.display = 'none';
-  commentButton.style.display = 'none';
+  document.getElementById('toggleDescriptionButton').style.display = 'none';
+  document.getElementById('toggleCommentButton').style.display = 'none';
 }
 
 hideButtons();
@@ -74,16 +70,16 @@ function playVideo(videoId) {
   const videoWrapper = document.getElementById('videoWrapper');
   const videoSection = document.querySelector('.video-section');
   
-  // Show the video wrapper and section when a video is selected
+  // Show video section
   videoWrapper.classList.add('show');
   videoSection.classList.remove('no-video');
   
   document.getElementById('videoPlayer').src = videoUrl;
-  updateVideoTitle(videoId); // Update the video title
-  updateDescription(videoId); // Update the video description
-  showButtons(); // Show buttons when video is selected
+  updateVideoTitle(videoId);
+  updateDescription(videoId);
+  showButtons();
 
-  const videoSection = document.querySelector('.video-section');
+  // smooth scroll to video
   if (videoSection) {
     videoSection.scrollIntoView({ 
       behavior: 'smooth', 
@@ -92,16 +88,14 @@ function playVideo(videoId) {
   }
 }
 
-
 function updateVideoTitle(selectedVideoId) {
   fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${selectedVideoId}&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
       if (data.items.length > 0) {
-        const title = data.items[0].snippet.title;
-        document.getElementById('videoTitle').innerText = title; // Set the video title
+        document.getElementById('videoTitle').innerText = data.items[0].snippet.title;
       } else {
-        document.getElementById('videoTitle').innerText = ''; // Clear video title if no data found
+        document.getElementById('videoTitle').innerText = '';
       }
     })
     .catch(error => {
@@ -110,12 +104,9 @@ function updateVideoTitle(selectedVideoId) {
     });
 }
 
-
 function showButtons() {
-  const descriptionButton = document.getElementById('toggleDescriptionButton');
-  const commentButton = document.getElementById('toggleCommentButton');
-  descriptionButton.style.display = 'block';
-  commentButton.style.display = 'block';
+  document.getElementById('toggleDescriptionButton').style.display = 'block';
+  document.getElementById('toggleCommentButton').style.display = 'block';
 }
 
 function updateDescription(selectedVideoId) {
@@ -127,10 +118,10 @@ function updateDescription(selectedVideoId) {
         const descriptionContainer = document.getElementById('descriptionContainer');
         if (description) {
           descriptionContainer.innerHTML = `<h3>Description Box:</h3><p>${description}</p>`;
-          descriptionContainer.style.display = 'block'; // Display description container
+          descriptionContainer.style.display = 'block';
         } else {
           descriptionContainer.innerHTML = '<p>No description available.</p>';
-          descriptionContainer.style.display = 'none'; // Hide description container if no description
+          descriptionContainer.style.display = 'block'; 
         }
       }
     })
@@ -139,7 +130,6 @@ function updateDescription(selectedVideoId) {
       alert('An error occurred while fetching video details.');
     });
 }
-
 
 function toggleDescription() {
   const descriptionElement = document.getElementById('descriptionContainer');
@@ -154,33 +144,39 @@ function toggleComments() {
 }
 
 function toggleDarkMode() {
-  const body = document.body;
-  const darkModeIcon = document.getElementById('darkModeIcon');
-  body.classList.toggle("dark-mode");
-  darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
+  document.body.classList.toggle("dark-mode");
+  if (document.body.classList.contains("dark-mode")) {
+    localStorage.setItem("theme", "dark");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
 }
 
+window.onload = () => {
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+};
 
 function getVideoIdFromPlayer() {
   const videoPlayer = document.getElementById('videoPlayer');
   const videoUrl = videoPlayer.src;
-  const videoId = videoUrl.split('/').pop();
-  return videoId;
+  return videoUrl.split('/').pop();
 }
 
 function displayComments(videoId) {
   fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
-      const firstComment = data.items[0];
       const commentContainer = document.getElementById('commentContainer');
-      if (firstComment) {
+      if (data.items && data.items.length > 0) {
+        const firstComment = data.items[0];
         const commentText = firstComment.snippet.topLevelComment.snippet.textDisplay;
         commentContainer.innerHTML = `<h3>Pinned Comment:</h3><p>${commentText}</p>`;
         commentContainer.style.display = 'block';
       } else {
         commentContainer.innerHTML = '<p>No comments found.</p>';
-        commentContainer.style.display = 'none';
+        commentContainer.style.display = 'block';
       }
     })
     .catch(error => {
@@ -200,12 +196,11 @@ function showComments() {
   }
 }
 
-//adding search functionality by pressing enter key
+// Search by pressing Enter
 document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('searchInput');
   const videoSection = document.querySelector('.video-section');
   
-  // Hide video section by default
   videoSection.classList.add('no-video');
 
   searchInput.addEventListener('keydown', (event) => {
@@ -215,17 +210,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Function to show trending videos when "All" is clicked
+// Show trending videos
 function showTrending() {
   const videoWrapper = document.getElementById('videoWrapper');
   const videoSection = document.querySelector('.video-section');
   const welcomeMessage = document.getElementById('welcomeMessage');
   
-  // Hide video wrapper and section when showing trending
   videoWrapper.classList.remove('show');
   videoSection.classList.add('no-video');
-  
-  // Hide welcome message when searching
   welcomeMessage.classList.add('hidden');
   
   document.getElementById('videoPlayer').src = '';
@@ -235,21 +227,18 @@ function showTrending() {
   document.getElementById('commentContainer').style.display = 'none';
   hideButtons();
 
-  // Search for trending/popular content
   const query = 'trending popular videos';
   
-  // Make API request to search for trending videos
   fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=10&q=${query}&type=video&key=${API_KEY}`)
     .then(response => response.json())
     .then(data => {
+      const resultsContainer = document.getElementById('searchResults');
+      resultsContainer.innerHTML = '';
       if (data.items.length > 0) {
-        // Display search results
-        const resultsContainer = document.getElementById('searchResults');
         data.items.forEach(item => {
           const videoId = item.id.videoId;
           const title = item.snippet.title;
 
-          // Create result item
           const resultItem = document.createElement('div');
           resultItem.classList.add('result-item');
           resultItem.innerHTML = `
@@ -260,7 +249,6 @@ function showTrending() {
           resultsContainer.appendChild(resultItem);
         });
       } else {
-        const resultsContainer = document.getElementById('searchResults');
         resultsContainer.innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No trending videos found at the moment.</p>';
       }
     })

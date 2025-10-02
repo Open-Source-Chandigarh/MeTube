@@ -657,3 +657,45 @@ footer {
 .dark-mode .filter-btn:hover {
   box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
 }
+
+/* Dark mode base */
+body.dark-mode {
+  background-color: #181818;
+  color: #f1f1f1;
+}
+
+body.dark-mode header {
+  background: #202020;
+}
+
+body.dark-mode .video-card {
+  background: #282828;
+  border-color: #3e3e3e;
+}
+
+body.dark-mode .video-card h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .video-card p {
+  color: #aaaaaa;
+}
+
+body.dark-mode .video-player iframe {
+  border: 2px solid #444;
+}
+
+body.dark-mode #descriptionContainer,
+body.dark-mode #commentsSection {
+  background: #202020;
+  border: 1px solid #3a3a3a;
+}
+
+body.dark-mode button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+body.dark-mode button:hover {
+  background: #444;
+}
