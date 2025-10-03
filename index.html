@@ -50,30 +50,41 @@
         </div>
 
     <div class="video-section">
-        <div class="left-content">
+        <div class="main-video-content">
             <div class="video-container">
                 <div id="videoWrapper">
                     <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <h2 id="videoTitle" class="video-title"></h2>
+                
+                <!-- Description section below video -->
+                <div class="video-description-section">
+                    <div class="description-container" id="descriptionContainer">
+                        <h3>Description</h3>
+                        <p id="videoDescription"></p>
+                        <button id="showMoreBtn" class="show-more-btn" onclick="toggleDescription()" style="display: none;">
+                            Show More
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="video-comments-section">
+                    <div class="comments-container" id="commentsContainer">
+                        <h3>Comments</h3>
+                        <div id="commentsLoading" class="comments-loading" style="display: none;">
+                            <p>Loading comments...</p>
+                        </div>
+                        <div id="commentsList" class="comments-list">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="right-content">
-            <div class="cdButtons">
-                <button id="toggleDescriptionButton" onclick="toggleDescription()">
-                    <span class="material-symbols-outlined">Description</span>
-                </button>
-                <button id="toggleCommentButton" onclick="showComments()">
-                    <span class="material-symbols-outlined">Comment</span>
-                </button>
-            </div>
-            <div class="description-comment-section">
-                <div class="description-container" id="descriptionContainer">
-                    <p id="videoDescription"></p>
-                </div>
-                <div class="comment-container" id="commentContainer">
-                </div>
+        <div class="sidebar-content">
+            <h3 class="sidebar-title">Related Videos</h3>
+            <div id="relatedVideos" class="related-videos">
+                <!-- Related videos will be populated here -->
             </div>
         </div>
     </div>
