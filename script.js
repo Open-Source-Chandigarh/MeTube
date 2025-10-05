@@ -33,13 +33,8 @@ function searchVideos(category = '') {
   }
 
   // Make API request to search for videos
-  fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=15&q=${encodeURIComponent(query)}&type=video&key=${API_KEY}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
+  fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=15&q=${query}&type=video&key=${API_KEY}`)
+    .then(response => response.json())
     .then(data => {
       if (data.items.length > 0) {
         const videoResults = data.items.filter(item => {
