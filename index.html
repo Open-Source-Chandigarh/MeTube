@@ -28,10 +28,8 @@
 
 <body>
     <nav class="navbar">
-        <h1 class="heading">MeTube</h1>
-        <button id="toggleDarkModeButton" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
-            <span id="darkModeIcon" class="material-symbols-outlined">dark_mode</span>
-        </button>
+        <img src="./pics/metubeLogo.png" style="height: 80px;">
+
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Search videos, channels, or keywords" aria-label="Search videos">
             <button id="searchButton" onclick="searchVideos()">Search</button>
@@ -58,7 +56,6 @@
                 </div>
                 <h2 id="videoTitle" class="video-title"></h2>
                 
-                <!-- Description section below video -->
                 <div class="video-description-section">
                     <div class="description-container" id="descriptionContainer">
                         <h3>Description</h3>
@@ -85,12 +82,10 @@
         <div class="sidebar-content">
             <h3 class="sidebar-title">Related Videos</h3>
             <div id="relatedVideos" class="related-videos">
-                <!-- Related videos will be populated here -->
             </div>
         </div>
     </div>
 
-        <!-- Welcome message when no search has been performed -->
         <div id="welcomeMessage" class="welcome-message">
             <div class="welcome-content">
                 <h2>Welcome to MeTube</h2>
@@ -151,10 +146,10 @@
                         </div>
             </div>
         </footer>
+        <button id="scrollTopBtn" title="Go to top">↑</button>
 
 
         <script>
-            // Set current year in footer
             document.addEventListener('DOMContentLoaded', function () {
                 const y = new Date().getFullYear();
                 const el = document.getElementById('footerYear');
