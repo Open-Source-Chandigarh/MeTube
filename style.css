@@ -26,6 +26,33 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Keep search centered in navbar regardless of other items */
+.navbar { position: relative; }
+
+.search-container {
+  /* absolute center so search bar stays in place */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+}
+
+/* Add this after your .navbar styles */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  /* Add spacing if needed */
+}
+
 .heading {
   font-family: "Montserrat", sans-serif;
   font-size: 2rem;
@@ -491,6 +518,19 @@ body {
   color: #b30b0b;
 }
 
+/* Add this after your .footer-brand styles */
+.footer-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.footer-logo {
+  height: 30px;
+  width: auto;
+}
+
 .footer-tag {
   margin: 4px 0 0 0;
   font-size: 0.9rem;
@@ -946,6 +986,28 @@ body {
   #toggleDarkModeButton {
     right: 20px;
   }
+
+  /* Reset search container positioning for tablet and smaller */
+  .search-container {
+    position: static;
+    transform: none;
+    width: auto;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Responsive logo adjustments */
+  .navbar-brand {
+    gap: 8px;
+  }
+
+  .navbar-logo {
+    height: 32px;
+  }
+
+  .footer-logo {
+    height: 24px;
+  }
 }
 
 /* Media query for mobile screens 320px wide */
@@ -967,6 +1029,8 @@ body {
     flex-direction: column; /* Stack search input and button */
     width: 100%;
     align-items: center;
+    position: static; /* reset absolute centering on small screens */
+    transform: none;
   }
 
   #searchInput {
@@ -1034,6 +1098,21 @@ body {
 }
 
 /* Filter Section  */
+.navbar-brand {
+  gap: 6px;
+}
+
+.navbar-logo {
+  height: 30px;
+}
+
+.footer-logo {
+  height: 20px;
+}
+
+.footer-logo-section {
+  margin-bottom: 12px;
+}
 
 .filter-buttons {
   display: flex;

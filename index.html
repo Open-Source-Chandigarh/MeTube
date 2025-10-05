@@ -16,9 +16,11 @@
     <meta name="twitter:description" content="Watch YouTube videos and discover in-depth details with MeTube.">
 
     <title>MeTube - Watch and Explore YouTube Videos</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <!-- Updated favicon references -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon_Metube.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon_Metube.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon_Metube.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon_Metube.ico">
     <link rel="manifest" href="/favicon/site.webmanifest">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -27,7 +29,11 @@
 
 <body>
     <nav class="navbar">
-        <h1 class="heading">MeTube</h1>
+        <!-- Updated navbar with logo -->
+        <div class="navbar-brand">
+            <img src="./assets/logo.png" alt="MeTube Logo" class="navbar-logo">
+            <h1 class="heading">MeTube</h1>
+        </div>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Search videos, channels, or keywords" aria-label="Search videos">
             <button id="searchButton" onclick="searchVideos()">Search</button>
@@ -46,7 +52,6 @@
             <button onclick="searchVideos('news')" class="filter-btn">News</button>
             <button onclick="searchVideos('gaming')" class="filter-btn">Gaming</button>
             <button onclick="searchVideos('comedy')" class="filter-btn">Comedy</button>
-            
         </div>
 
     <div class="video-section">
@@ -105,7 +110,11 @@
             <div class="footer-inner">
                         <div class="footer-top">
                             <div class="footer-column footer-brand">
-                                <h3>MeTube</h3>
+                                <!-- Updated footer with logo -->
+                                <div class="footer-logo-section">
+                                    <img src="./assets/logo.png" alt="MeTube Logo" class="footer-logo">
+                                    <h3>MeTube</h3>
+                                </div>
                                 <p class="footer-tag">A cleaner, distraction-reduced YouTube experience — search, watch, and explore videos with fewer distractions.</p>
                                 <div class="footer-social">
                                     <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
@@ -150,7 +159,6 @@
                         </div>
             </div>
         </footer>
-
 
         <script>
             // Set current year in footer
