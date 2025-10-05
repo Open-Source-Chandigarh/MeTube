@@ -22,19 +22,20 @@
     <link rel="manifest" href="/favicon/site.webmanifest">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <nav class="navbar">
         <h1 class="heading">MeTube</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search for Video">
-            <button id="searchButton" onclick="searchVideos()">Search</button>
-        </div>
-        <button id="toggleDarkModeButton" onclick="toggleDarkMode()">
+        <button id="toggleDarkModeButton" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
             <span id="darkModeIcon" class="material-symbols-outlined">dark_mode</span>
         </button>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search videos, channels, or keywords" aria-label="Search videos">
+            <button id="searchButton" onclick="searchVideos()">Search</button>
+        </div>
     </nav>
 
     <div class="main-content">
@@ -93,7 +94,7 @@
         <div id="welcomeMessage" class="welcome-message">
             <div class="welcome-content">
                 <h2>Welcome to MeTube</h2>
-                <p>Search for your favorite videos using the search bar above or browse by categories!</p>
+                <p>Discover and watch YouTube videos faster. Use the search bar above or browse categories to get started.</p>
                 <div class="welcome-icon">🎬</div>
             </div>
         </div>
@@ -101,35 +102,66 @@
         <div id="searchResults" class="search-results"></div>
     </div>
 
-    <footer style="background-color: #b30b0b; color: #ffffff; padding: 20px 0; text-align: center;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-          <div style="margin-bottom: 10px;">
-            <p style="margin: 0; font-size: 1.2em;">&copy; MeTube</p>
-            <p style="margin: 0;">All rights reserved</p>
-          </div>
-          <div style="margin-top: 10px;">
-            <a href="#" style="color: #ffffff; margin: 0 10px; text-decoration: none;">Privacy Policy</a>
-            <a href="#" style="color: #ffffff; margin: 0 10px; text-decoration: none;">Terms of Service</a>
-            <a href="#" style="color: #ffffff; margin: 0 10px; text-decoration: none;">Contact Us</a>
-          </div>
-          <div style="margin-top: 20px;">
-            <a href="https://facebook.com" target="_blank" style="color: #ffffff; margin: 0 5px; text-decoration: none;">
-                <img src="./assets/facebook.png"  alt="facebook logo" height="2%" width="2%">
-            </a>
+     <footer class="site-footer">
+            <div class="footer-inner">
+                        <div class="footer-top">
+                            <div class="footer-column footer-brand">
+                                <h3>MeTube</h3>
+                                <p class="footer-tag">A cleaner, distraction-reduced YouTube experience — search, watch, and explore videos with fewer distractions.</p>
+                                <div class="footer-social">
+                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                                        <img src="./assets/facebook.png" alt="facebook logo">
+                                    </a>
+                                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                                        <img src="./assets/twitter.png" alt="twitter logo">
+                                    </a>
+                                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                                        <img src="./assets/instagram.png" alt="instagram logo">
+                                    </a>
+                                </div>
+                            </div>
 
-            <a href="https://twitter.com" target="_blank" style="color: #ffffff; margin: 0 5px; text-decoration: none;">
-            <img src="./assets/twitter.png"  alt="x logo" height="2%" width="2%">
-            </a>
+                            <div class="footer-column footer-links">
+                                <h4>Quick Links</h4>
+                                <a href="#">Privacy Policy</a>
+                                <a href="#">Terms of Service</a>
+                                <a href="#">Contact Us</a>
+                            </div>
 
-            <a href="https://instagram.com" target="_blank" style="color: #ffffff; margin: 0 5px; text-decoration: none;">
-                <img src="./assets/instagram.png"  alt="instagram logo" height="2%" width="2%">
-            </a>
-          </div>
-        </div>
-      </footer>
+                            <div class="footer-column footer-resources">
+                                <h4>Resources</h4>
+                                <a href="https://github.com/Open-Source-Chandigarh/MeTube" target="_blank" rel="noopener noreferrer">Contributing</a>
+                                <a href="#">API Documentation</a>
+                                <a href="#">Roadmap</a>
+                            </div>
+
+                            <div class="footer-column footer-newsletter">
+                                <h4>Newsletter</h4>
+                                <p>Get updates on new features and improvements. No spam — unsubscribe anytime.</p>
+                                <form id="newsletterForm" class="newsletter-form" onsubmit="return handleSubscribe(event)">
+                                    <input type="email" id="newsletterEmail" placeholder="Your email address" required>
+                                    <button type="submit">Subscribe</button>
+                                </form>
+                                <p id="newsletterMsg" class="newsletter-msg" aria-live="polite"></p>
+                            </div>
+                        </div>
+
+                        <div class="footer-bottom">
+                            <p>&copy; <span id="footerYear"></span> MeTube. All rights reserved.</p>
+                        </div>
+            </div>
+        </footer>
 
 
-    <script src="script.js"></script>
+        <script>
+            // Set current year in footer
+            document.addEventListener('DOMContentLoaded', function () {
+                const y = new Date().getFullYear();
+                const el = document.getElementById('footerYear');
+                if (el) el.textContent = y;
+            });
+        </script>
+        <script src="script.js"></script>
 </body>
 
 </html>
