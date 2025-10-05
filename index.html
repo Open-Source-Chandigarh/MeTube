@@ -28,16 +28,14 @@
 <body>
     <nav class="navbar">
         <h1 class="heading">MeTube</h1>
-        <button id="navToggle" aria-label="Toggle navigation" onclick="toggleNav()">
-            <span class="material-symbols-outlined">menu</span>
-        </button>
+        <!-- Removed navToggle button for mobile responsiveness -->
         <div class="search-container">
+            <button id="toggleDarkModeButton" onclick="toggleDarkMode()">
+                <span id="darkModeIcon" class="material-symbols-outlined">dark_mode</span>
+            </button>
             <input type="text" id="searchInput" placeholder="Search for Video">
             <button id="searchButton" onclick="searchVideos()">Search</button>
         </div>
-        <button id="toggleDarkModeButton" onclick="toggleDarkMode()">
-            <span id="darkModeIcon" class="material-symbols-outlined">dark_mode</span>
-        </button>
     </nav>
 
     <div class="main-content">

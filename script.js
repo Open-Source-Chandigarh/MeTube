@@ -159,10 +159,7 @@ function toggleDarkMode() {
   darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
 }
 
-function toggleNav() {
-  const searchContainer = document.querySelector('.search-container');
-  searchContainer.classList.toggle('open');
-}
+
 
 
 function getVideoIdFromPlayer() {
