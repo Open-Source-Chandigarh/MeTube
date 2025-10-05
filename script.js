@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyBxwLXs2czUR-YztwkrN__9Z9yWvODIecs';
+const API_KEY = 'AIzaSyCQqvQhNs-lX7KoUCErol_05C5pM15YCRQ';
 const SEARCH_ENDPOINT = 'https://www.googleapis.com/youtube/v3/search';
 let isDescriptionVisible = true;
 let isCommentVisible = false;
@@ -17,15 +17,15 @@ function searchVideos(category = '') {
   welcomeMessage.classList.add('hidden');
   
   document.getElementById('videoPlayer').src = '';
-  document.getElementById('searchResults').innerHTML = '';
+  if (document.getElementById('searchResults')) document.getElementById('searchResults').innerHTML = '';
   document.getElementById('videoTitle').innerText = ''; // Clear video title
   document.getElementById('descriptionContainer').style.display = 'none'; // Hide description container
-  document.getElementById('commentsContainer').style.display = 'none'; // Hide comments container
-  document.getElementById('relatedVideos').innerHTML = ''; // Clear related videos
+  if (document.getElementById('commentsContainer')) document.getElementById('commentsContainer').style.display = 'none';
+  if (document.getElementById('relatedVideos')) document.getElementById('relatedVideos').innerHTML = '';
   
   fullDescription = '';
   isDescriptionExpanded = false;
-  document.getElementById('showMoreBtn').style.display = 'none';
+  if (document.getElementById('showMoreBtn')) document.getElementById('showMoreBtn').style.display = 'none';
 
   let query = searchInput;
   if (category && category !== 'all') {
@@ -66,7 +66,15 @@ function searchVideos(category = '') {
     })
     .catch(error => {
       console.error('Error fetching data:', error);
-      alert('An error occurred while fetching data.');
+      const resultsContainer = document.getElementById('searchResults');
+      if (resultsContainer) {
+        resultsContainer.innerHTML = `
+          <div style="text-align: center; padding: 2rem; color: #ff4757;">
+            <p>Sorry, an error occurred while fetching the data.</p>
+            <p style="font-size: 0.9em; color: #666;">Please try again later or check your connection.</p>
+          </div>
+        `;
+      }
     });
 }
 
@@ -190,6 +198,8 @@ function toggleDarkMode() {
   body.classList.toggle("dark-mode");
   darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
 }
+
+
 
 
 
