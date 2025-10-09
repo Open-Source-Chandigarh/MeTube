@@ -45,18 +45,25 @@
         </button>
     </nav>
 
+    <!--Back Toolbar-->
+    <div id="backToolbar" class="back-toolbar">
+        <button id="backButton" title="Back" aria-label="Go back">
+            <span class="material-symbols-outlined">arrow_back</span>
+            <span class="back-button-text">Back</span>
+        </button>
+    </div>
+    <!--Filter Buttons-->
     <div class="main-content">
         <div id="filterButtons" class="filter-buttons">
-            <button onclick="showTrending()" class="filter-btn">All</button>
-            <button onclick="searchVideos('sports')" class="filter-btn">Sports</button>
-            <button onclick="searchVideos('entertainment')" class="filter-btn">Entertainment</button>
-            <button onclick="searchVideos('music')" class="filter-btn">Music</button>
-            <button onclick="searchVideos('news')" class="filter-btn">News</button>
-            <button onclick="searchVideos('gaming')" class="filter-btn">Gaming</button>
-            <button onclick="searchVideos('comedy')" class="filter-btn">Comedy</button>
+            <button onclick="showTrending()" class="filter-btn" data-category="all">All</button>
+            <button onclick="searchVideos('sports')" class="filter-btn" data-category="sports">Sports</button>
+            <button onclick="searchVideos('entertainment')" class="filter-btn" data-category="entertainment">Entertainment</button>
+            <button onclick="searchVideos('music')" class="filter-btn" data-category="music">Music</button>
+            <button onclick="searchVideos('news')" class="filter-btn" data-category="news">News</button>
+            <button onclick="searchVideos('gaming')" class="filter-btn" data-category="gaming">Gaming</button>
+            <button onclick="searchVideos('comedy')" class="filter-btn" data-category="comedy">Comedy</button>
             
         </div>
-
     <div class="video-section">
         <div class="main-video-content">
             <div class="video-container">
@@ -79,6 +86,7 @@
                     <div class="comments-container" id="commentsContainer">
                         <h3>Comments</h3>
                         <div id="commentsLoading" class="comments-loading" style="display: none;">
+                            <p>Loading comments...</p>
                         </div>
                         <div id="commentsList" class="comments-list">
                         </div>
@@ -103,35 +111,6 @@
         </div>
 
         <div id="searchResults" class="search-results"></div>
-        
-        <!-- Templates for loading skeletons -->
-        <template id="searchResultSkeleton">
-            <div class="result-item skeleton-card" role="presentation" aria-hidden="true">
-                <div class="skeleton-thumb skeleton-shimmer"></div>
-                <div class="skeleton-content">
-                    <div class="skeleton-line w-80 skeleton-shimmer"></div>
-                    <div class="skeleton-line w-60 skeleton-shimmer"></div>
-                </div>
-            </div>
-        </template>
-
-        <template id="commentSkeleton">
-            <div class="comment-item" role="presentation" aria-hidden="true">
-                <div class="skeleton-line w-40 skeleton-shimmer"></div>
-                <div class="skeleton-line w-90 skeleton-shimmer"></div>
-                <div class="skeleton-line w-70 skeleton-shimmer"></div>
-            </div>
-        </template>
-
-        <template id="relatedVideoSkeleton">
-            <div class="related-skeleton-item" role="presentation" aria-hidden="true">
-                <div class="related-skeleton-thumb skeleton-shimmer"></div>
-                <div class="related-skeleton-info">
-                    <div class="skeleton-line w-80 skeleton-shimmer"></div>
-                    <div class="skeleton-line w-50 skeleton-shimmer"></div>
-                </div>
-            </div>
-        </template>
     </div>
 
         <footer class="site-footer">
