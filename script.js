@@ -2,6 +2,8 @@ const API_KEY = 'AIzaSyBxwLXs2czUR-YztwkrN__9Z9yWvODIecs';
 const SEARCH_ENDPOINT = 'https://www.googleapis.com/youtube/v3/search';
 let isDescriptionVisible = true;
 let isCommentVisible = false;
+const THEME_KEY = 'metube:theme';
+const RECENTS_KEY = 'metube:recentSearches';
 
 function searchVideos(category = '') {
   const searchInput = document.getElementById('searchInput').value;
@@ -30,6 +32,9 @@ function searchVideos(category = '') {
   let query = searchInput;
   if (category && category !== 'all') {
     query = category; // Override the search query if a category is selected
+    setActiveFilter(category);
+  } else if (!category) {
+    clearActiveFilters();
   }
 
   // Attempt to serve from sessionStorage cache first (5-minute TTL)
@@ -58,6 +63,7 @@ function searchVideos(category = '') {
               resultItem.addEventListener('click', () => playVideo(videoId));
               resultsContainer.appendChild(resultItem);
             });
+            if (query && (query || '').trim()) addRecentSearch((query || '').trim());
           } else {
             document.getElementById('searchResults').innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found for your search.</p>';
           }
@@ -120,6 +126,7 @@ function searchVideos(category = '') {
             resultItem.addEventListener('click', () => playVideo(videoId));
             resultsContainer.appendChild(resultItem);
           });
+          if (query && query.trim()) addRecentSearch(query.trim());
         } else {
           document.getElementById('searchResults').innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found for your search.</p>';
         }
@@ -252,8 +259,101 @@ function toggleDescription() {
 function toggleDarkMode() {
   const body = document.body;
   const darkModeIcon = document.getElementById('darkModeIcon');
-  body.classList.toggle("dark-mode");
-  darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
+  const willEnable = !body.classList.contains('dark-mode');
+  body.classList.toggle('dark-mode', willEnable);
+  darkModeIcon.innerText = willEnable ? 'light_mode' : 'dark_mode';
+  try {
+    localStorage.setItem(THEME_KEY, willEnable ? 'dark' : 'light');
+  } catch(_) {}
+}
+
+function initTheme() {
+  let theme = null;
+  try { theme = localStorage.getItem(THEME_KEY); } catch(_) {}
+  if (!theme && window.matchMedia) {
+    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  const enableDark = theme === 'dark';
+  document.body.classList.toggle('dark-mode', enableDark);
+  const darkModeIcon = document.getElementById('darkModeIcon');
+  if (darkModeIcon) darkModeIcon.innerText = enableDark ? 'light_mode' : 'dark_mode';
+}
+
+function getRecentSearches() {
+  try {
+    const raw = localStorage.getItem(RECENTS_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch(_) { return []; }
+}
+
+function saveRecentSearches(arr) {
+  try { localStorage.setItem(RECENTS_KEY, JSON.stringify(arr)); } catch(_) {}
+}
+
+function addRecentSearch(term) {
+  const t = term.trim().toLowerCase();
+  if (!t) return;
+  let arr = getRecentSearches();
+  arr = [t, ...arr.filter(x => x !== t)].slice(0, 8);
+  saveRecentSearches(arr);
+  renderRecentSearches();
+}
+
+function clearRecentSearches() {
+  saveRecentSearches([]);
+  renderRecentSearches();
+}
+
+function renderRecentSearches() {
+  const container = document.getElementById('recentSearches');
+  if (!container) return;
+  const data = getRecentSearches();
+  container.innerHTML = '';
+  if (data.length === 0) {
+    container.style.display = 'none';
+    return;
+  }
+  container.style.display = 'flex';
+  const frag = document.createDocumentFragment();
+
+  data.forEach(term => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.type = 'button';
+    btn.textContent = term;
+    btn.addEventListener('click', () => {
+      const si = document.getElementById('searchInput');
+      if (si) si.value = term;
+      clearActiveFilters();
+      searchVideos();
+    });
+    frag.appendChild(btn);
+  });
+
+  const clearBtn = document.createElement('button');
+  clearBtn.className = 'chip chip-clear';
+  clearBtn.type = 'button';
+  clearBtn.textContent = 'Clear';
+  clearBtn.setAttribute('aria-label', 'Clear recent searches');
+  clearBtn.addEventListener('click', clearRecentSearches);
+  frag.appendChild(clearBtn);
+
+  container.appendChild(frag);
+}
+
+function setActiveFilter(category) {
+  const buttons = document.querySelectorAll('.filter-btn');
+  const target = (category || '').toString().trim().toLowerCase();
+  buttons.forEach(btn => {
+    const label = btn.textContent.trim().toLowerCase();
+    btn.classList.toggle('active', label === target || (target === 'all' && label === 'all'));
+  });
+}
+
+function clearActiveFilters() {
+  document.querySelectorAll('.filter-btn.active').forEach(b => b.classList.remove('active'));
 }
 
 
@@ -521,6 +621,10 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
+
+  // Initialize theme and recent searches
+  initTheme();
+  renderRecentSearches();
 });
 
 function handleSubscribe(event) {
@@ -582,6 +686,7 @@ function showTrending() {
 
   // Search for trending/popular content
   const query = 'trending popular videos';
+  setActiveFilter('All');
   
   // Make API request to search for trending videos
   fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=15&q=${query}&type=video&key=${API_KEY}`)

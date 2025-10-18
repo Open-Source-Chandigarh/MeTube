@@ -1404,6 +1404,56 @@ body {
 .dark-mode .footer-social a[aria-label="Twitter"]:hover img {
   transform: translateY(-3px) scale(1.02);
 }
+
+.recent-searches {
+  display: none;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  padding: 0 2rem 0.5rem 2rem;
+  margin: 0.5rem auto 0 auto;
+}
+
+.chip {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.chip:active { transform: translateY(0); }
+
+.chip-clear {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.chip-clear:hover {
+  background: #fee2e2;
+}
+
+.dark-mode .recent-searches { background: transparent; }
+.dark-mode .chip {
+  background: #374151;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+.dark-mode .chip:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.35); }
+.dark-mode .chip-clear {
+  background: rgba(239,68,68,0.15);
+  color: #fecaca;
+  border-color: rgba(239,68,68,0.35);
+}
 /* Scroll to Top Button */
 #scrollTopBtn {
     display: none; /* Hidden by default */
