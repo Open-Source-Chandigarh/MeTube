@@ -494,6 +494,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const backButton = document.getElementById('backButton');
   const filterButtons = document.getElementById('filterButtons');
   
+  // Initialize saved theme preference (dark/light)
+  initTheme();
+  
   videoSection.classList.add('no-video');
 
   searchInput.addEventListener('keydown', (event) => {
