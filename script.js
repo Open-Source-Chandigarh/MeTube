@@ -2,8 +2,44 @@ const API_KEY = 'AIzaSyBxwLXs2czUR-YztwkrN__9Z9yWvODIecs';
 const SEARCH_ENDPOINT = 'https://www.googleapis.com/youtube/v3/search';
 let isDescriptionVisible = true;
 let isCommentVisible = false;
+let lastSearchQuery = '';
+let lastSearchCategory = '';
+
+// Loading and Error Handling Functions
+function showLoading() {
+  document.getElementById('loadingSpinner').style.display = 'flex';
+  document.getElementById('errorMessage').style.display = 'none';
+  document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('welcomeMessage').classList.add('hidden');
+}
+
+function hideLoading() {
+  document.getElementById('loadingSpinner').style.display = 'none';
+  document.getElementById('searchResults').style.display = 'grid';
+}
+
+function showError(title, description) {
+  document.getElementById('loadingSpinner').style.display = 'none';
+  document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('errorMessage').style.display = 'flex';
+  document.getElementById('errorTitle').textContent = title;
+  document.getElementById('errorDescription').textContent = description;
+}
+
+function hideError() {
+  document.getElementById('errorMessage').style.display = 'none';
+}
+
+function retryLastSearch() {
+  if (lastSearchQuery || lastSearchCategory) {
+    searchVideos(lastSearchCategory);
+  }
+}
 
 function searchVideos(category = '') {
+  // Store last search for retry functionality
+  lastSearchCategory = category;
+  lastSearchQuery = document.getElementById('searchInput').value;
   const searchInput = document.getElementById('searchInput').value;
   const videoWrapper = document.getElementById('videoWrapper');
   const videoSection = document.querySelector('.video-section');
@@ -38,10 +74,30 @@ function searchVideos(category = '') {
     query = category; // Override the search query if a category is selected
   }
 
+  // Show loading state
+  showLoading();
+  hideError();
+
   // Make API request to search for videos
   fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=15&q=${encodeURIComponent(query)}&type=video&key=${API_KEY}`)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
+      hideLoading();
+      
+      if (data.error) {
+        showError('API Error', data.error.message || 'Failed to fetch videos. Please try again.');
+        return;
+      }
+      
+      if (!data.items || data.items.length === 0) {
+        showError('No Results Found', `We couldn't find any videos for "${query}". Try different keywords.`);
+        return;
+      }
       if (data.items.length > 0) {
         const videoResults = data.items.filter(item => {
           return item.id && item.id.videoId && item.id.kind === 'youtube#video';
@@ -72,7 +128,20 @@ function searchVideos(category = '') {
     })
     .catch(error => {
       console.error('Error fetching data:', error);
-      alert('An error occurred while fetching data.');
+      hideLoading();
+      
+      let errorTitle = 'Connection Error';
+      let errorDescription = 'Please check your internet connection and try again.';
+      
+      if (error.message.includes('HTTP error')) {
+        errorTitle = 'Server Error';
+        errorDescription = 'The video service is temporarily unavailable. Please try again later.';
+      } else if (error.message.includes('Failed to fetch')) {
+        errorTitle = 'Network Error';
+        errorDescription = 'Unable to connect to the video service. Please check your internet connection.';
+      }
+      
+      showError(errorTitle, errorDescription);
     });
 }
 

@@ -108,6 +108,25 @@
             </div>
         </div>
 
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading videos...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;">
+            <div class="error-content">
+                <span class="material-symbols-outlined error-icon">error</span>
+                <h3 id="errorTitle">Oops! Something went wrong</h3>
+                <p id="errorDescription">Please try again later or check your internet connection.</p>
+                <button class="retry-btn" onclick="retryLastSearch()">
+                    <span class="material-symbols-outlined">refresh</span>
+                    Retry
+                </button>
+            </div>
+        </div>
+
         <div id="searchResults" class="search-results"></div>
     </div>
 
