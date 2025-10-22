@@ -38,9 +38,36 @@
                 <span class="material-symbols-outlined">search</span>
             </button>
         </div>
-        <button id="toggleDarkModeButton" onclick="toggleDarkMode()">
-            <span id="darkModeIcon" class="material-symbols-outlined">dark_mode</span>
-        </button>
+        
+        <div class="nav-controls">
+            <button id="toggleViewButton" onclick="toggleViewMode()" title="Toggle view" aria-label="Toggle between grid and list view">
+                <span id="viewIcon" class="material-symbols-outlined">grid_view</span>
+            </button>
+            
+            <div class="theme-selector">
+                <button id="toggleThemeButton" onclick="toggleThemeMenu()" title="Theme options" aria-label="Select theme">
+                    <span id="themeIcon" class="material-symbols-outlined">palette</span>
+                </button>
+                <div id="themeMenu" class="theme-menu hidden">
+                    <button onclick="setTheme('light')" class="theme-option">
+                        <span class="material-symbols-outlined">light_mode</span>
+                        <span>Light</span>
+                    </button>
+                    <button onclick="setTheme('dark')" class="theme-option">
+                        <span class="material-symbols-outlined">dark_mode</span>
+                        <span>Dark</span>
+                    </button>
+                    <button onclick="setTheme('sepia')" class="theme-option">
+                        <span class="material-symbols-outlined">auto_stories</span>
+                        <span>Sepia</span>
+                    </button>
+                    <button onclick="setTheme('contrast')" class="theme-option">
+                        <span class="material-symbols-outlined">contrast</span>
+                        <span>High Contrast</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </nav>
 
     <!--Filter Buttons-->
@@ -128,6 +155,35 @@
         </div>
 
         <div id="searchResults" class="search-results"></div>
+        
+        <!-- Templates for loading skeletons -->
+        <template id="searchResultSkeleton">
+            <div class="result-item skeleton-card" role="presentation" aria-hidden="true">
+                <div class="skeleton-thumb skeleton-shimmer"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton-line w-80 skeleton-shimmer"></div>
+                    <div class="skeleton-line w-60 skeleton-shimmer"></div>
+                </div>
+            </div>
+        </template>
+
+        <template id="commentSkeleton">
+            <div class="comment-item" role="presentation" aria-hidden="true">
+                <div class="skeleton-line w-40 skeleton-shimmer"></div>
+                <div class="skeleton-line w-90 skeleton-shimmer"></div>
+                <div class="skeleton-line w-70 skeleton-shimmer"></div>
+            </div>
+        </template>
+
+        <template id="relatedVideoSkeleton">
+            <div class="related-skeleton-item" role="presentation" aria-hidden="true">
+                <div class="related-skeleton-thumb skeleton-shimmer"></div>
+                <div class="related-skeleton-info">
+                    <div class="skeleton-line w-80 skeleton-shimmer"></div>
+                    <div class="skeleton-line w-50 skeleton-shimmer"></div>
+                </div>
+            </div>
+        </template>
     </div>
 
         <footer class="site-footer">

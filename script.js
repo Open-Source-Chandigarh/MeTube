@@ -36,6 +36,12 @@ function retryLastSearch() {
   }
 }
 
+// View Mode Toggle
+let currentView = localStorage.getItem('viewMode') || 'grid';
+
+// Theme System
+let currentTheme = localStorage.getItem('theme') || 'light';
+
 function searchVideos(category = '') {
   // Store last search for retry functionality
   lastSearchCategory = category;
@@ -77,6 +83,67 @@ function searchVideos(category = '') {
   // Show loading state
   showLoading();
   hideError();
+  // Attempt to serve from sessionStorage cache first (5-minute TTL)
+  try {
+    const key = 'metube:search:' + encodeURIComponent((query || '').trim().toLowerCase());
+    const raw = sessionStorage.getItem(key);
+    if (raw) {
+      const cached = JSON.parse(raw);
+      const SEARCH_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+      if (cached && typeof cached.ts === 'number' && Array.isArray(cached.data)) {
+        if ((Date.now() - cached.ts) < SEARCH_CACHE_TTL_MS) {
+          const videoResults = cached.data;
+          if (videoResults.length > 0) {
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = '';
+            videoResults.slice(0, 10).forEach(item => {
+              const videoId = item.id.videoId;
+              const title = item.snippet.title;
+  
+              const resultItem = document.createElement('div');
+              resultItem.classList.add('result-item');
+              resultItem.innerHTML = `
+                <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail">
+                <p>${title}</p>
+              `;
+              resultItem.addEventListener('click', () => playVideo(videoId));
+              resultsContainer.appendChild(resultItem);
+            });
+          } else {
+            document.getElementById('searchResults').innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found for your search.</p>';
+          }
+          return; // Served from cache; skip network
+        } else {
+          // Expired cache; clean up
+          sessionStorage.removeItem(key);
+        }
+      }
+    }
+  } catch (e) {
+    // Ignore cache errors (e.g., storage disabled)
+  }
+
+  // Show enhanced search skeletons while fetching
+  try {
+    const tpl = document.getElementById('searchResultSkeleton');
+    const resultsContainer = document.getElementById('searchResults');
+    resultsContainer.classList.add('content-loading');
+    
+    if (tpl && tpl.content) {
+      const skeletonCount = currentView === 'grid' ? 8 : 5;
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < skeletonCount; i++) {
+        const skeleton = tpl.content.cloneNode(true);
+        const skeletonEl = skeleton.querySelector('.result-item');
+        if (skeletonEl) {
+          skeletonEl.style.animationDelay = `${i * 0.05}s`;
+        }
+        frag.appendChild(skeleton);
+      }
+      resultsContainer.innerHTML = '';
+      resultsContainer.appendChild(frag);
+    }
+  } catch (_) {}
 
   // Make API request to search for videos
   fetch(`${SEARCH_ENDPOINT}?part=snippet&maxResults=15&q=${encodeURIComponent(query)}&type=video&key=${API_KEY}`)
@@ -103,27 +170,41 @@ function searchVideos(category = '') {
           return item.id && item.id.videoId && item.id.kind === 'youtube#video';
         });
         
+        // Store results in cache (even if empty array) with timestamp
+        try {
+          const key = 'metube:search:' + encodeURIComponent((query || '').trim().toLowerCase());
+          sessionStorage.setItem(key, JSON.stringify({ ts: Date.now(), data: videoResults }));
+        } catch (e) {
+          // Ignore quota or serialization errors
+        }
+        
         if (videoResults.length > 0) {
-          // Display search results
+          // Display search results with animations
           const resultsContainer = document.getElementById('searchResults');
-          videoResults.slice(0, 10).forEach(item => {
+          resultsContainer.classList.remove('content-loading');
+          resultsContainer.innerHTML = '';
+          
+          videoResults.slice(0, 10).forEach((item, index) => {
             const videoId = item.id.videoId;
             const title = item.snippet.title;
 
             const resultItem = document.createElement('div');
             resultItem.classList.add('result-item');
+            resultItem.style.animationDelay = `${index * 0.05}s`;
             resultItem.innerHTML = `
-              <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail">
+              <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail" loading="lazy">
               <p>${title}</p>
             `;
             resultItem.addEventListener('click', () => playVideo(videoId));
             resultsContainer.appendChild(resultItem);
           });
         } else {
-          document.getElementById('searchResults').innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found for your search.</p>';
+          const resultsContainer = document.getElementById('searchResults');
+          resultsContainer.innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found for your search.</p>';
         }
       } else {
-        alert('No videos found.');
+        const resultsContainer = document.getElementById('searchResults');
+        resultsContainer.innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found.</p>';
       }
     })
     .catch(error => {
@@ -142,6 +223,8 @@ function searchVideos(category = '') {
       }
       
       showError(errorTitle, errorDescription);
+      const resultsContainer = document.getElementById('searchResults');
+      resultsContainer.innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">An error occurred while fetching data.</p>';
     });
 }
 
@@ -165,7 +248,12 @@ function playVideo(videoId) {
   loadRelatedVideos(videoId); // Load related videos in sidebar
   loadVideoComments(videoId); // Load video comments
 
-  // Keep scroll position constant when opening a video
+  if (videoSection) {
+    videoSection.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+  }
 }
 
 
@@ -258,11 +346,85 @@ function toggleDescription() {
 
 
 
-function toggleDarkMode() {
+function toggleViewMode() {
+  const searchResults = document.getElementById('searchResults');
+  const viewIcon = document.getElementById('viewIcon');
+  
+  if (currentView === 'grid') {
+    currentView = 'list';
+    searchResults.classList.add('list-view');
+    viewIcon.textContent = 'view_list';
+  } else {
+    currentView = 'grid';
+    searchResults.classList.remove('list-view');
+    viewIcon.textContent = 'grid_view';
+  }
+  
+  localStorage.setItem('viewMode', currentView);
+  
+  // Add transition animation
+  searchResults.style.opacity = '0';
+  setTimeout(() => {
+    searchResults.style.opacity = '1';
+  }, 200);
+}
+
+// Theme System Functions
+function setTheme(theme) {
   const body = document.body;
-  const darkModeIcon = document.getElementById('darkModeIcon');
-  body.classList.toggle("dark-mode");
-  darkModeIcon.innerText = body.classList.contains("dark-mode") ? 'light_mode' : 'dark_mode';
+  
+  // Remove all theme classes
+  body.classList.remove('dark-mode', 'sepia-theme', 'contrast-theme');
+  
+  // Apply new theme
+  switch(theme) {
+    case 'dark':
+      body.classList.add('dark-mode');
+      break;
+    case 'sepia':
+      body.classList.add('sepia-theme');
+      break;
+    case 'contrast':
+      body.classList.add('contrast-theme');
+      break;
+    default:
+      // Light theme (default)
+      break;
+  }
+  
+  currentTheme = theme;
+  localStorage.setItem('theme', theme);
+  
+  // Close theme menu
+  document.getElementById('themeMenu').classList.add('hidden');
+  
+  // Animate theme transition
+  body.style.transition = 'all 0.3s ease';
+}
+
+function toggleThemeMenu() {
+  const themeMenu = document.getElementById('themeMenu');
+  themeMenu.classList.toggle('hidden');
+  
+  // Close menu when clicking outside
+  if (!themeMenu.classList.contains('hidden')) {
+    setTimeout(() => {
+      document.addEventListener('click', closeThemeMenu);
+    }, 100);
+  }
+}
+
+function closeThemeMenu(e) {
+  const themeSelector = document.querySelector('.theme-selector');
+  if (!themeSelector.contains(e.target)) {
+    document.getElementById('themeMenu').classList.add('hidden');
+    document.removeEventListener('click', closeThemeMenu);
+  }
+}
+
+// Keep old toggleDarkMode for backward compatibility
+function toggleDarkMode() {
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
 }
 
 
@@ -270,6 +432,21 @@ function toggleDarkMode() {
 
 // Function to load related videos in sidebar
 function loadRelatedVideos(videoId) {
+  // Show skeletons in sidebar while fetching related videos
+  try {
+    const container = document.getElementById('relatedVideos');
+    const tpl = document.getElementById('relatedVideoSkeleton');
+    if (container) {
+      container.innerHTML = '';
+      if (tpl && tpl.content) {
+        const frag = document.createDocumentFragment();
+        for (let i = 0; i < 6; i++) {
+          frag.appendChild(tpl.content.cloneNode(true));
+        }
+        container.appendChild(frag);
+      }
+    }
+  } catch(_) {}
   // Get video details to extract tags/category for better related video search
   fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`)
     .then(response => response.json())
@@ -298,11 +475,19 @@ function loadRelatedVideos(videoId) {
           })
           .catch(error => {
             console.error('Error fetching related videos:', error);
+            const container = document.getElementById('relatedVideos');
+            if (container) {
+              container.innerHTML = '<p style="text-align: center; color: #888; font-style: italic;">Unable to load related videos.</p>';
+            }
           });
       }
     })
     .catch(error => {
       console.error('Error fetching video details for related search:', error);
+      const container = document.getElementById('relatedVideos');
+      if (container) {
+        container.innerHTML = '<p style="text-align: center; color: #888; font-style: italic;">Unable to load related videos.</p>';
+      }
     });
 }
 
@@ -335,8 +520,23 @@ function loadVideoComments(videoId) {
   const commentsList = document.getElementById('commentsList');
   
   commentsContainer.style.display = 'block';
-  commentsLoading.style.display = 'block';
   commentsList.innerHTML = '';
+  
+  // Render comment skeletons while fetching
+  try {
+    const tpl = document.getElementById('commentSkeleton');
+    if (tpl && tpl.content) {
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < 6; i++) {
+        frag.appendChild(tpl.content.cloneNode(true));
+      }
+      commentsLoading.innerHTML = '';
+      commentsLoading.appendChild(frag);
+      commentsLoading.style.display = 'block';
+    } else {
+      commentsLoading.style.display = 'block';
+    }
+  } catch (_) {}
   
   fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`)
     .then(response => response.json())
@@ -347,6 +547,7 @@ function loadVideoComments(videoId) {
         .then(response => response.json())
         .then(data => {
           commentsLoading.style.display = 'none';
+          commentsLoading.innerHTML = '';
           
           if (data.items && data.items.length > 0) {
             displayComments(data.items, channelId);
@@ -357,12 +558,14 @@ function loadVideoComments(videoId) {
         .catch(error => {
           console.error('Error fetching comments:', error);
           commentsLoading.style.display = 'none';
+          commentsLoading.innerHTML = '';
           commentsList.innerHTML = '<p style="text-align: center; color: #ff4757; font-style: italic;">Comments are disabled for this video or could not be loaded.</p>';
         });
     })
     .catch(error => {
       console.error('Error fetching video details:', error);
       commentsLoading.style.display = 'none';
+      commentsLoading.innerHTML = '';
       commentsList.innerHTML = '<p style="text-align: center; color: #ff4757; font-style: italic;">Could not load comments.</p>';
     });
 }
@@ -465,6 +668,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterButtons = document.getElementById('filterButtons');
   
   videoSection.classList.add('no-video');
+  
+  // Apply saved theme on load
+  if (currentTheme !== 'light') {
+    setTheme(currentTheme);
+  }
+  
+  // Apply saved view mode on load
+  if (currentView === 'list') {
+    document.getElementById('searchResults').classList.add('list-view');
+    document.getElementById('viewIcon').textContent = 'view_list';
+  }
 
   searchInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
@@ -576,6 +790,19 @@ function showTrending() {
   // Mark 'All' as active
   setActiveCategory('all');
 
+  // Show skeletons while fetching trending
+  try {
+    const tpl = document.getElementById('searchResultSkeleton');
+    const resultsContainer = document.getElementById('searchResults');
+    if (tpl && tpl.content) {
+      const frag = document.createDocumentFragment();
+      for (let i = 0; i < 8; i++) {
+        frag.appendChild(tpl.content.cloneNode(true));
+      }
+      resultsContainer.appendChild(frag);
+    }
+  } catch (_) {}
+
   // Search for trending/popular content
   const query = 'trending popular videos';
   
@@ -591,6 +818,7 @@ function showTrending() {
         if (videoResults.length > 0) {
           // Display search results
           const resultsContainer = document.getElementById('searchResults');
+          resultsContainer.innerHTML = '';
           videoResults.slice(0, 10).forEach(item => {
             const videoId = item.id.videoId;
             const title = item.snippet.title;
