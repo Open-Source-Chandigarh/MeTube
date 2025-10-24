@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us — MeTube</title>
+  <link rel="stylesheet" href="../css/pages_style.css" />
+</head>
+<body>
+   <!-- Your existing Navbar -->
+   <nav class="navbar">
+     <div class="nav-left">
+       <h1 class="logo">MeTube</h1>
+     </div>
+
+     <div class="nav-right">
+       <a href="../index.html">Home</a>
+       <a href="terms.html">Terms</a>
+       <a href="contact.html" class="active">Contact</a>
+       <a href="privacy.html">Privacy Policy</a>
+     </div>
+   </nav>
+
+  <!-- 
+    NEW CONTACT PAGE LAYOUT
+    Using class "contact-page-new" to avoid conflicts
+    with old ".contact-page" styles.
+  -->
+  <main class="container contact-page-new">
+    
+    <!-- New Header from image -->
+    <header class="contact-header">
+      <!-- Icon from image -->
+      <div class="header-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 7L12 12L22 7" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 12V22" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1>Contact our friendly team</h1>
+      <p class="lead">Let us know how we can help.</p>
+    </header>
+
+    <!-- New 4-Card Grid Layout -->
+    <div class="contact-cards-grid">
+      
+      <!-- Card 1: Mapped from your 'Business' section -->
+      <section class="contact-card">
+        <div class="contact-icon-wrapper">
+          <!-- Chat icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 11.5C21 16.7467 16.7467 21 11.5 21C10.5563 21 9.63602 20.854 8.75073 20.5786C8.2431 20.4181 7.69317 20.3346 7.14214 20.3346H4C3.44772 20.3346 3 19.8869 3 19.3346V16.1924C3 15.6414 3.08347 15.0915 3.24398 14.5838C2.14502 12.6802 2 10.3861 2 8C2 3.25329 6.25329 -1 11 -1C16.2467 -1 20.5 3.25329 20.5 8C20.5 9.38606 20.1139 10.6802 19.4214 11.756C19.854 12.636 20 13.556 20 14.5C20.3371 14.5 20.6629 14.5 21 14.5" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Chat to sales</h3>
+        <p>Speak to our friendly team.</p>
+        <a href="mailto:business@metube.example">business@metube.example</a>
+      </section>
+      
+      <!-- Card 2: Mapped from your 'Support' section -->
+      <section class="contact-card">
+        <div class="contact-icon-wrapper">
+          <!-- Support icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.4709 21.513 10.1786 22 12 22Z" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Chat to support</h3>
+        <p>We're here to help.</p>
+        <a href="mailto:support@metube.example">support@metube.example</a>
+      </section>
+      
+      <!-- Card 3: Placeholder -->
+      <section class="contact-card">
+        <div class="contact-icon-wrapper">
+          <!-- Location icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 9C20 15.3333 12 21 12 21C12 21 4 15.3333 4 9C4 5.68629 7.58172 3 12 3C16.4183 3 20 5.68629 20 9Z" stroke="#101828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Visit us</h3>
+        <p>Visit our office HQ.</p>
+        <a href="#">View on Google Maps</a>
+      </section>
+      
+      <!-- Card 4: Placeholder -->
+      <section class="contact-card">
+        <div class="contact-icon-wrapper">
+          <!-- Phone icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.8574 14.1427C18.8574 15.1427 18.8574 15.6427 18.7303 16.069C18.6181 16.4447 18.4232 16.786 18.1582 17.0609C17.8631 17.3659 17.488 17.5811 17.0609 17.7082C16.6346 17.8353 16.1346 17.8353 15.1346 17.8353L14.7346 17.8353C13.435 17.8353 12.5133 17.5811 11.7583 17.0989C11.0033 16.6168 10.3708 16.0345 9.8887 15.5824C9.37658 15.1003 8.76421 14.518 8.08018 13.8639C7.39615 13.2099 6.78377 12.5975 6.27165 11.1154C5.75953 9.63328 5.47468 8.76116 5.47468 7.51139V7.11139C5.47468 6.11139 5.47468 5.61139 5.59253 5.19416C5.69831 4.82851 5.88404 4.49622 6.13897 4.2312C6.42401 3.93615 6.79913 3.73029 7.22625 3.61244C7.65257 3.48532 8.15257 3.48532 9.15257 3.48532H9.55257C10.8522 3.48532 11.7738 3.73956 12.5289 4.2217C13.2839 4.70383 13.9164 5.28612 14.4285 6.76826C14.9406 8.25039 15.2255 9.12251 15.2255 10.3723V10.7723C15.2255 11.7723 15.2255 12.2723 15.1076 12.6895C15.0018 13.0551 14.8161 13.3874 14.5612 13.6524C14.2761 13.9475 13.901 14.1533 13.4739 14.2712C13.0476 14.3983 12.5476 14.3983 11.5476 14.3983" stroke="#101828" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>Call us</h3>
+        <p>Mon-Fri from 8am to 5pm.</p>
+        <a href="#">+1 (555) 000-0000</a>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Your existing Footer -->
+  <footer class="footer" >
+    <div class="footer-container">
+      <!-- Column 1 -->
+      <div class="footer-column">
+        <h2 class="footer-logo">MeTube</h2>
+        <p>A cleaner, distraction-reduced YouTube experience — search, watch, and explore videos with fewer distractions.</p>
+        <div class="social-icons">
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968830.png" alt="X"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="#">Contributing</a></li>
+          <li><a href="#">API Documentation</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 MeTube. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

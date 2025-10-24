@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyB4PDW-rmngPQbEaZouW5KXp2y4hhPK3L';
+const API_KEY = 'AIzaSyCKECoE9j8tmYKZ5g0qvbmPT0ZA0D3N2Vo';
 const SEARCH_ENDPOINT = 'https://www.googleapis.com/youtube/v3/search';
 let isDescriptionVisible = true;
 let isCommentVisible = false;
@@ -28,7 +28,11 @@ function searchVideos(category = '') {
   // Hide welcome message when searching
   welcomeMessage.classList.add('hidden');
   
-  document.getElementById('videoPlayer').src = '';
+  // Only clear video player if it's not in PiP mode
+  if (!isPiPActive) {
+    document.getElementById('videoPlayer').src = '';
+  }
+  
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('videoTitle').innerText = ''; // Clear video title
   document.getElementById('descriptionContainer').style.display = 'none'; // Hide description container
@@ -233,13 +237,37 @@ function playVideo(videoId) {
   const filterButtons = document.getElementById('filterButtons');
   const backButton = document.getElementById('backButton');
   const backToolbar = document.getElementById('backToolbar');
+  const miniPlayer = document.getElementById('miniPlayer');
+  const videoPlayer = document.getElementById('videoPlayer');
+  
+  // Close PiP if it's active and move iframe back to main player
+  if (isPiPActive && miniPlayer) {
+    const miniVideoContainer = document.querySelector('.mini-player-video');
+    const iframeInMini = miniVideoContainer ? miniVideoContainer.querySelector('iframe') : null;
+    
+    if (iframeInMini && videoWrapper) {
+      // Move iframe back to main wrapper
+      videoWrapper.appendChild(iframeInMini);
+    }
+    
+    // Close mini player
+    miniPlayer.style.display = 'none';
+    miniPlayer.classList.remove('active');
+    if (videoSection) videoSection.classList.remove('pip-active');
+    isPiPActive = false;
+    updatePipButton(false);
+  }
   
   videoWrapper.classList.add('show');
   videoSection.classList.remove('no-video');
   if (filterButtons) filterButtons.classList.add('hidden');
   if (backToolbar) backToolbar.style.display = 'block';
   
-  document.getElementById('videoPlayer').src = videoUrl;
+  // Set the new video URL
+  if (videoPlayer) {
+    videoPlayer.src = videoUrl;
+  }
+  
   updateVideoTitle(videoId); // Update the video title
   updateDescription(videoId); // Update the video description
   loadRelatedVideos(videoId); // Load related videos in sidebar
@@ -711,7 +739,25 @@ document.addEventListener('DOMContentLoaded', () => {
     backButton.addEventListener('click', () => {
       const videoWrapper = document.getElementById('videoWrapper');
       const results = document.getElementById('searchResults');
-      document.getElementById('videoPlayer').src = '';
+      const mainPlayer = document.getElementById('videoPlayer');
+
+      // If a video is currently playing, move it to PiP instead of unloading it
+      if (mainPlayer && mainPlayer.src && mainPlayer.src !== '') {
+        // Activate PiP so playback continues while user navigates back
+        if (!isPiPActive) togglePictureInPicture();
+        // Hide the large player container UI while PiP is visible
+        videoWrapper.classList.remove('show');
+        videoSection.classList.add('no-video');
+        if (filterButtons) filterButtons.classList.remove('hidden');
+        const backToolbar = document.getElementById('backToolbar');
+        if (backToolbar) backToolbar.style.display = 'none';
+        if (!results || results.children.length === 0) {
+          showTrending();
+        }
+        return;
+      }
+
+      // Fallback: if no video is playing, behave as before
       videoWrapper.classList.remove('show');
       videoSection.classList.add('no-video');
       if (filterButtons) filterButtons.classList.remove('hidden');
@@ -764,6 +810,7 @@ function showTrending() {
   const videoWrapper = document.getElementById('videoWrapper');
   const videoSection = document.querySelector('.video-section');
   const welcomeMessage = document.getElementById('welcomeMessage');
+  const miniPlayer = document.getElementById('miniPlayer');
   
   // Hide video wrapper and section when showing trending
   videoWrapper.classList.remove('show');
@@ -772,7 +819,12 @@ function showTrending() {
   // Hide welcome message when searching
   welcomeMessage.classList.add('hidden');
   
-  document.getElementById('videoPlayer').src = '';
+  // Only clear iframe if it's not in PiP mode
+  const isPipActive = miniPlayer && miniPlayer.style.display !== 'none';
+  if (!isPipActive) {
+    document.getElementById('videoPlayer').src = '';
+  }
+  
   document.getElementById('searchResults').innerHTML = '';
   document.getElementById('videoTitle').innerText = '';
   document.getElementById('descriptionContainer').style.display = 'none';
@@ -1167,6 +1219,15 @@ function initializeKeyboardShortcuts() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
         
+      case 'p':
+        // Toggle Picture-in-Picture: work whether iframe is in main or mini container
+        const videoPlayer = document.getElementById('videoPlayer');
+        const miniPlayerIframe = document.querySelector('.mini-player-video iframe');
+        if ((videoPlayer && videoPlayer.src && videoPlayer.src !== '') || miniPlayerIframe) {
+          togglePictureInPicture();
+        }
+        break;
+        
       case '?':
         // Toggle keyboard shortcuts help
         event.preventDefault();
@@ -1267,6 +1328,10 @@ function toggleKeyboardShortcutsHelp() {
             <span class="shortcut-description">Scroll to top (Home)</span>
           </div>
           <div class="shortcut-item">
+            <span class="shortcut-key">P</span>
+            <span class="shortcut-description">Toggle Picture-in-Picture</span>
+          </div>
+          <div class="shortcut-item">
             <span class="shortcut-key">Esc</span>
             <span class="shortcut-description">Close modals / Blur search</span>
           </div>
@@ -1294,3 +1359,235 @@ function toggleKeyboardShortcutsHelp() {
     helpModal.style.display = 'flex';
   }
 }
+
+// ===== PICTURE-IN-PICTURE FUNCTIONALITY =====
+let isPiPActive = false;
+let miniPlayerDragData = { isDragging: false, startX: 0, startY: 0, initialX: 0, initialY: 0 };
+
+function togglePictureInPicture() {
+  const mainPlayer = document.getElementById('videoPlayer');
+  const miniPlayer = document.getElementById('miniPlayer');
+  const videoTitle = document.getElementById('videoTitle').textContent;
+  const miniPlayerTitle = document.getElementById('miniPlayerTitle');
+
+  // If there's no video playing, abort
+  if (!mainPlayer || !mainPlayer.src || mainPlayer.src === '') {
+    alert('Please play a video first!');
+    return;
+  }
+
+  if (!isPiPActive) {
+    // Activate PiP mode by moving the iframe to mini player
+    const miniVideoContainer = document.querySelector('.mini-player-video');
+
+    // Update title
+    miniPlayerTitle.textContent = videoTitle || 'Now Playing';
+
+    // Move the iframe element to mini player (preserves playback)
+    if (mainPlayer && miniVideoContainer) {
+      miniVideoContainer.appendChild(mainPlayer);
+    }
+
+    // Show mini player
+    miniPlayer.style.display = 'block';
+    miniPlayer.classList.add('active');
+    document.querySelector('.video-section').classList.add('pip-active');
+
+    isPiPActive = true;
+    initializeMiniPlayerDrag();
+    updatePipButton(true);
+  } else {
+    // Deactivate PiP mode (maximize)
+    maximizeMiniPlayer();
+  }
+}
+
+function maximizeMiniPlayer() {
+  const miniPlayer = document.getElementById('miniPlayer');
+  const miniVideoContainer = document.querySelector('.mini-player-video');
+  const videoSection = document.querySelector('.video-section');
+  const videoWrapper = document.getElementById('videoWrapper');
+
+  if (!isPiPActive) return;
+
+  // Move the iframe back into the main player container
+  const iframeNode = miniVideoContainer ? miniVideoContainer.querySelector('iframe') : null;
+  if (iframeNode && videoWrapper) {
+    videoWrapper.appendChild(iframeNode);
+  }
+
+  // Hide mini player with animation
+  miniPlayer.classList.add('closing');
+  miniPlayer.classList.remove('active');
+  setTimeout(() => {
+    miniPlayer.style.display = 'none';
+    miniPlayer.classList.remove('closing');
+  }, 300);
+
+  // Show main video section
+  videoSection.classList.remove('pip-active');
+  videoWrapper.classList.add('show');
+
+  isPiPActive = false;
+  updatePipButton(false);
+
+  // Scroll to video
+  videoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeMiniPlayer() {
+  const miniPlayer = document.getElementById('miniPlayer');
+  const miniVideoContainer = document.querySelector('.mini-player-video');
+  const videoSection = document.querySelector('.video-section');
+
+  if (!isPiPActive) return;
+
+  // Remove the iframe from mini player (stops playback)
+  const iframeNode = miniVideoContainer ? miniVideoContainer.querySelector('iframe') : null;
+  if (iframeNode) {
+    iframeNode.remove();
+    
+    // Recreate a fresh iframe in the main player for future plays
+    const newIframe = document.createElement('iframe');
+    newIframe.id = 'videoPlayer';
+    newIframe.setAttribute('frameborder', '0');
+    newIframe.setAttribute('allowfullscreen', '');
+    const videoWrapper = document.getElementById('videoWrapper');
+    if (videoWrapper) videoWrapper.appendChild(newIframe);
+  }
+
+  // Hide mini player with animation
+  miniPlayer.classList.add('closing');
+  miniPlayer.classList.remove('active');
+  setTimeout(() => {
+    miniPlayer.style.display = 'none';
+    miniPlayer.classList.remove('closing');
+  }, 300);
+
+  // Update state
+  videoSection.classList.remove('pip-active');
+  isPiPActive = false;
+  updatePipButton(false);
+}
+
+function updatePipButton(isActive) {
+  const pipButton = document.getElementById('pipButton');
+  if (!pipButton) return;
+  
+  const icon = pipButton.querySelector('.material-symbols-outlined');
+  if (isActive) {
+    icon.textContent = 'picture_in_picture_off';
+    pipButton.title = 'Exit Picture-in-Picture';
+  } else {
+    icon.textContent = 'picture_in_picture_alt';
+    pipButton.title = 'Picture-in-Picture';
+  }
+}
+
+// Mini Player Drag Functionality
+function initializeMiniPlayerDrag() {
+  const miniPlayer = document.getElementById('miniPlayer');
+  const header = document.getElementById('miniPlayerHeader');
+  
+  if (!header) return;
+  
+  header.addEventListener('mousedown', startDragging);
+  header.addEventListener('touchstart', startDragging);
+}
+
+function startDragging(e) {
+  const miniPlayer = document.getElementById('miniPlayer');
+  
+  miniPlayerDragData.isDragging = true;
+  miniPlayer.classList.add('dragging');
+  
+  // Get initial positions
+  const rect = miniPlayer.getBoundingClientRect();
+  miniPlayerDragData.initialX = rect.left;
+  miniPlayerDragData.initialY = rect.top;
+  
+  // Get cursor/touch position
+  if (e.type === 'touchstart') {
+    miniPlayerDragData.startX = e.touches[0].clientX;
+    miniPlayerDragData.startY = e.touches[0].clientY;
+  } else {
+    miniPlayerDragData.startX = e.clientX;
+    miniPlayerDragData.startY = e.clientY;
+  }
+  
+  // Add event listeners
+  document.addEventListener('mousemove', dragMiniPlayer);
+  document.addEventListener('touchmove', dragMiniPlayer);
+  document.addEventListener('mouseup', stopDragging);
+  document.addEventListener('touchend', stopDragging);
+  
+  e.preventDefault();
+}
+
+function dragMiniPlayer(e) {
+  if (!miniPlayerDragData.isDragging) return;
+  
+  const miniPlayer = document.getElementById('miniPlayer');
+  
+  // Get current cursor/touch position
+  let currentX, currentY;
+  if (e.type === 'touchmove') {
+    currentX = e.touches[0].clientX;
+    currentY = e.touches[0].clientY;
+  } else {
+    currentX = e.clientX;
+    currentY = e.clientY;
+  }
+  
+  // Calculate new position
+  const deltaX = currentX - miniPlayerDragData.startX;
+  const deltaY = currentY - miniPlayerDragData.startY;
+  
+  let newX = miniPlayerDragData.initialX + deltaX;
+  let newY = miniPlayerDragData.initialY + deltaY;
+  
+  // Keep within viewport bounds
+  const maxX = window.innerWidth - miniPlayer.offsetWidth;
+  const maxY = window.innerHeight - miniPlayer.offsetHeight;
+  
+  newX = Math.max(0, Math.min(newX, maxX));
+  newY = Math.max(0, Math.min(newY, maxY));
+  
+  // Apply position
+  miniPlayer.style.left = newX + 'px';
+  miniPlayer.style.top = newY + 'px';
+  miniPlayer.style.right = 'auto';
+  miniPlayer.style.bottom = 'auto';
+  
+  e.preventDefault();
+}
+
+function stopDragging() {
+  const miniPlayer = document.getElementById('miniPlayer');
+  
+  miniPlayerDragData.isDragging = false;
+  miniPlayer.classList.remove('dragging');
+  
+  // Remove event listeners
+  document.removeEventListener('mousemove', dragMiniPlayer);
+  document.removeEventListener('touchmove', dragMiniPlayer);
+  document.removeEventListener('mouseup', stopDragging);
+  document.removeEventListener('touchend', stopDragging);
+}
+
+// Add PiP button visibility when video is playing
+document.addEventListener('DOMContentLoaded', function() {
+  const videoWrapper = document.getElementById('videoWrapper');
+  
+  if (videoWrapper) {
+    // Show PiP button when hovering over video
+    videoWrapper.addEventListener('mouseenter', function() {
+      const pipButton = document.getElementById('pipButton');
+      const hasMainIframe = document.getElementById('videoPlayer') !== null && document.getElementById('videoPlayer').src && document.getElementById('videoPlayer').src !== '';
+      const hasMiniIframe = document.querySelector('.mini-player-video iframe') !== null;
+      if (pipButton && (hasMainIframe || hasMiniIframe)) {
+        pipButton.style.opacity = '1';
+      }
+    });
+  }
+});

@@ -94,6 +94,11 @@
             <div class="video-container">
                 <div id="videoWrapper">
                     <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
+                    <div class="video-controls-overlay">
+                        <button id="pipButton" class="pip-button" onclick="togglePictureInPicture()" title="Picture-in-Picture" aria-label="Enable Picture-in-Picture mode">
+                            <span class="material-symbols-outlined">picture_in_picture_alt</span>
+                        </button>
+                    </div>
                 </div>
                 <h2 id="videoTitle" class="video-title"></h2>
                 
@@ -188,9 +193,9 @@
 
                             <div class="footer-column footer-links">
                                 <h4>Quick Links</h4>
-                                <a href="#">Privacy Policy</a>
-                                <a href="#">Terms of Service</a>
-                                <a href="#">Contact Us</a>
+                                <a href="./pages/privacy.html">Privacy Policy</a>
+                                <a href="./pages/terms.html">Terms of Service</a>
+                                <a href="./pages/contact.html">Contact Us</a>
                             </div>
 
                             <div class="footer-column footer-resources">
@@ -240,6 +245,24 @@
                 <div class="voice-status-text" id="voiceStatusText">Listening...</div>
                 <div class="voice-transcript" id="voiceTranscript">Say something...</div>
                 <button class="voice-close-btn" onclick="stopVoiceSearch()">Cancel</button>
+            </div>
+        </div>
+
+        <!-- Mini Player (Picture-in-Picture) -->
+        <div id="miniPlayer" class="mini-player" style="display: none;">
+            <div class="mini-player-header" id="miniPlayerHeader">
+                <span class="mini-player-title" id="miniPlayerTitle">Now Playing</span>
+                <div class="mini-player-controls">
+                    <button class="mini-control-btn" onclick="maximizeMiniPlayer()" title="Maximize" aria-label="Maximize video">
+                        <span class="material-symbols-outlined">open_in_full</span>
+                    </button>
+                    <button class="mini-control-btn" onclick="closeMiniPlayer()" title="Close" aria-label="Close mini player">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+            </div>
+            <div class="mini-player-video">
+                <!-- iframe will be moved here dynamically -->
             </div>
         </div>
 

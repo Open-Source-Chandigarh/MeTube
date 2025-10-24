@@ -1,0 +1,62 @@
+:root {
+  --bg: #f7f9fc;
+  --card: #ffffff;
+  --muted: #6b6f76;
+  --accent: #ff0000;
+}
+
+body {
+  font-family: Inter, Segoe UI, Roboto, system-ui, -apple-system, Arial, sans-serif;
+  background: var(--bg);
+  color: #111;
+  margin: 0;
+  padding: 24px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 28px;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(17, 24, 39, 0.06);
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+p.lead {
+  color: var(--muted);
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+ul {
+  margin: 8px 0 16px 20px;
+}
+
+footer {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 28px;
+}
+
+.small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

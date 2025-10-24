@@ -1,0 +1,644 @@
+/* ===== Global Styles ===== */
+
+/* NAvbar  */
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #202020;
+  padding: 10px 20px;
+  color: white;
+}
+
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.nav-right a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+  font-size: 1em;
+  transition: color 0.3s ease;
+}
+
+.nav-right a:hover,
+.nav-right a.active {
+  color: #ff0000; /* YouTube-style red highlight */
+}
+/* navbar ends */
+
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: #f8f9fb;
+  color: #222;
+  line-height: 1.7;
+}
+
+.container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 1.5rem;
+}
+
+/* ===== Header ===== */
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  color: #e50914;
+  margin-bottom: 0.5rem;
+}
+
+.page-header .lead {
+  color: #555;
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.page-header .small {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  background-color:antiquewhite
+}
+
+.card h2 {
+  color: #e50914;
+  font-size: 1.2rem;
+  margin-top: 0;
+}
+
+.card p, .card li {
+  color: #333;
+  font-size: 1rem;
+}
+
+.card ul {
+  padding-left: 1.5rem;
+}
+
+a {
+  color: #e50914;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #b40810;
+  text-decoration: underline;
+}
+
+/* ===== Footer ===== */
+.page-footer {
+  text-align: center;
+  margin-top: 2.5rem;
+  color: white;
+  font-size: 0.9rem;
+}
+
+/* ===== Responsive ===== */
+@media (min-width: 700px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.2rem;
+  }
+}
+
+
+/* Footer Section */
+.footer {
+  background-color:silver;
+  color: #333;
+  width: 100vw; /* Full viewport width */
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 50px 0;
+  border-top: 1px solid #e0e0e0;
+  font-family: "Inter", sans-serif;
+}
+
+/* Inner content wrapper */
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.footer-column {
+  flex: 1 1 250px;
+  min-width: 220px;
+}
+
+.footer-logo {
+  color: #d32f2f;
+  font-weight: 700;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.footer-column p {
+  font-size: 0.95em;
+  line-height: 1.6;
+  color: #555;
+}
+
+.footer-column h3 {
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-column ul li a:hover {
+  color: #d32f2f;
+}
+
+/* Social icons */
+.social-icons {
+  margin-top: 15px;
+}
+
+.social-icons a img {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+  transform: scale(1.1);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 40px;
+  padding: 15px 0;
+  font-size: 0.9em;
+  color: #666;
+  background-color: #f5f5f5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .social-icons a img {
+    margin-right: 5px;
+  }
+}
+
+
+
+/* Contact page style  */
+/* ============================
+   Contact Page Styles (Scoped)
+============================ */
+/* ================================================ */
+/* ================================================ */
+/* NEW STYLES FOR NEW CONTACT PAGE        */
+/* ================================================ */
+/* ================================================ */
+/*
+ * These styles are scoped using the ".contact-page-new" class
+ * from the <main> tag, so they won't affect the old
+ * ".contact-page" styles.
+*/
+
+/* 1. Main Container */
+.container.contact-page-new {
+  max-width: 1000px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  
+  /* This undoes the grid/flex from other pages if they share the .container class */
+  display: block; 
+}
+
+/* 2. Page Header */
+.contact-page-new .contact-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.contact-page-new .contact-header .header-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f0fdf9; /* Light teal/green */
+  border: 6px solid #dcfce7; /* Lighter teal/green */
+  margin-bottom: 1rem;
+}
+
+/* This selector is complex to make sure it ONLY
+  styles SVGs inside this specific header, 
+  not other page's SVGs.
+*/
+.contact-page-new .contact-header .header-icon-wrapper svg path {
+  stroke: #067647; /* Dark green */
+}
+
+.contact-page-new .contact-header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #101828; /* Dark text */
+  margin: 0 0 0.5rem 0;
+}
+
+.contact-page-new .contact-header .lead {
+  font-size: 1.1rem;
+  color: #667085; /* Grey text */
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 3. Cards Grid */
+.contact-page-new .contact-cards-grid {
+  display: grid;
+  /* 4 columns on desktop */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+/* 4. Individual Card Styling */
+.contact-page-new .contact-card {
+  background-color: #ffffff;
+  border: 1px solid #eaecf0; /* Light grey border */
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  transition: all 0.2s ease;
+  
+  /* Undoing global card styles */
+  margin: 0; 
+}
+
+.contact-page-new .contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.08);
+  
+  /* Undoing global card hover */
+  background-color: #ffffff; 
+}
+
+.contact-page-new .contact-card .contact-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f2f4f7; /* Light grey bg */
+  border: 6px solid #f9fafb; /* Lighter grey border */
+  margin-bottom: 1rem;
+}
+
+.contact-page-new .contact-card .contact-icon-wrapper svg path {
+  stroke: #101828; /* Dark icon */
+}
+
+.contact-page-new .contact-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #101828;
+  margin: 0 0 0.25rem 0;
+}
+
+/* Overriding global p */
+.contact-page-new .contact-card p {
+  font-size: 0.95rem;
+  color: #667085;
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+/* Override global 'a' styles */
+.contact-page-new .contact-card a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #067647; /* Dark green/teal link */
+  text-decoration: none;
+}
+
+.contact-page-new .contact-card a:hover {
+  text-decoration: underline;
+  color: #055f3a;
+}
+
+/* 5. Responsive Adjustments */
+
+/* Tablet: 2x2 grid */
+@media (max-width: 900px) {
+  .contact-page-new .contact-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .container.contact-page-new {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* Mobile: 1x1 grid */
+@media (max-width: 600px) {
+  .contact-page-new .contact-cards-grid {
+    grid-template-columns: 1fr;
+  }
+   .contact-page-new .contact-header h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* ============================
+   Terms Page Styles (Scoped)
+============================ */
+.container.terms-page {
+  display: flex;
+  flex-direction: row;
+  gap: 3rem; /* Space between nav and content */
+  max-width: 1100px; /* Make container wider for two columns */
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* 2. Left Navigation */
+.terms-page .terms-nav {
+  flex: 0 0 240px; /* Fixed width for the nav */
+  position: sticky; /* Makes it "stick" on scroll */
+  top: 2rem;
+  align-self: flex-start; /* Aligns to the top */
+  /* Calculate height to stop at bottom of viewport */
+  max-height: calc(100vh - 4rem); 
+  overflow-y: auto; /* Adds scroll if content is too long */
+}
+
+.terms-page .terms-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.terms-page .terms-nav li {
+  margin-bottom: 1.25rem;
+}
+
+.terms-page .terms-nav a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #7f8c8d; /* Muted grey text */
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  /* Override global 'a' color */
+  color: #7f8c8d;
+}
+
+.terms-page .terms-nav a:hover {
+  color: #34495e; /* Darker grey on hover */
+  text-decoration: none;
+}
+
+.terms-page .terms-nav .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #1abc9c; /* Teal color from image */
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-right: 12px;
+  flex-shrink: 0; /* Prevents number from shrinking */
+}
+
+/* Active state for nav item (like in the image) */
+.terms-page .terms-nav a.active {
+   color: #2c3e50; /* Dark text */
+   font-weight: 700;
+}
+
+/* 3. Right Content Area */
+.terms-page .terms-content {
+  flex: 1 1 auto; /* Takes up remaining space */
+  min-width: 0; /* Prevents flexbox overflow */
+}
+
+.terms-page .terms-content-header {
+  border-bottom: 1px solid #ecf0f1; /* Light grey border */
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.terms-page .terms-content-header h1 {
+  font-size: 2.2rem;
+  color: #2c3e50; /* Dark blue/grey */
+  margin: 0;
+}
+
+.terms-page .updated-date {
+  font-size: 0.9rem;
+  color: #95a5a6; /* Light grey */
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.terms-page .terms-content section {
+  margin-bottom: 2.5rem;
+}
+
+/* All section h2 tags */
+.terms-page .terms-content section h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #34495e;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase; /* For "SUBHEADER" style */
+}
+
+/* First h2 is styled differently in the image */
+.terms-page .terms-content section:first-of-type h2 {
+    text-transform: none;
+    font-size: 1.4rem; 
+}
+
+.terms-page .terms-content p, 
+.terms-page .terms-content li {
+  color: #333;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.terms-page .terms-content ul {
+   padding-left: 20px;
+   margin-top: 1rem;
+}
+
+/* Override global link color inside content */
+.terms-page .terms-content a {
+  color: #3498db; /* Blue for links in content */
+}
+.terms-page .terms-content a:hover {
+  color: #2980b9; /* Darker blue */
+}
+
+
+/* 4. Content Footer */
+.terms-page .terms-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #ecf0f1;
+}
+
+.terms-page .terms-footer .send-copy a {
+  text-decoration: none;
+  color: #3498db; /* Blue link */
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.terms-page .terms-footer .send-copy a:hover {
+  text-decoration: underline;
+  color: #2980b9;
+}
+
+.terms-page .terms-footer .agree-button button {
+  background-color: #2ecc71; /* Bright green */
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.terms-page .terms-footer .agree-button button:hover {
+  background-color: #27ae60; /* Darker green */
+}
+
+/* 5. Responsive Adjustments for Terms Page */
+@media (max-width: 900px) {
+  .container.terms-page {
+    flex-direction: column;
+    padding: 1.5rem;
+    max-width: 900px; /* Revert to standard container width */
+  }
+
+  .terms-page .terms-nav {
+    position: static; /* Un-stick it */
+    flex-basis: auto;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 1.5rem;
+    max-height: none; /* Remove fixed height */
+    overflow-y: visible;
+  }
+  
+  .terms-page .terms-nav ul {
+    display: flex;
+    flex-wrap: wrap; /* Let items wrap to new lines */
+    gap: 0.75rem 1.5rem;
+  }
+  
+  .terms-page .terms-nav li {
+     margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .terms-page .terms-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+  
+  .terms-page .terms-footer .send-copy {
+    text-align: center;
+  }
+  
+  .terms-page .terms-footer .agree-button button {
+    width: 100%; /* Full width button on mobile */
+  }
+  
+  .terms-page .terms-content-header h1 {
+    font-size: 1.8rem;
+  }
+}
