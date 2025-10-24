@@ -128,25 +128,91 @@ function searchVideos(category = '') {
         }
         
         if (videoResults.length > 0) {
-          // Display search results with animations
-          const resultsContainer = document.getElementById('searchResults');
-          resultsContainer.classList.remove('content-loading');
-          resultsContainer.innerHTML = '';
+          // Get video IDs to fetch durations and stats
+          const videoIds = videoResults.slice(0, 10).map(item => item.id.videoId).join(',');
           
-          videoResults.slice(0, 10).forEach((item, index) => {
-            const videoId = item.id.videoId;
-            const title = item.snippet.title;
+          // Fetch video details (duration, views, etc.)
+          fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${API_KEY}`)
+            .then(response => response.json())
+            .then(videoDetailsData => {
+              // Create a map of video details by ID
+              const videoDetailsMap = {};
+              if (videoDetailsData.items) {
+                videoDetailsData.items.forEach(item => {
+                  videoDetailsMap[item.id] = {
+                    duration: item.contentDetails.duration,
+                    viewCount: item.statistics.viewCount,
+                    likeCount: item.statistics.likeCount
+                  };
+                });
+              }
+              
+              // Display search results with animations and video details
+              const resultsContainer = document.getElementById('searchResults');
+              resultsContainer.classList.remove('content-loading');
+              resultsContainer.innerHTML = '';
+              
+              videoResults.slice(0, 10).forEach((item, index) => {
+                const videoId = item.id.videoId;
+                const title = item.snippet.title;
+                const channelTitle = item.snippet.channelTitle;
+                const publishedAt = item.snippet.publishedAt;
+                const videoDetails = videoDetailsMap[videoId] || {};
 
-            const resultItem = document.createElement('div');
-            resultItem.classList.add('result-item');
-            resultItem.style.animationDelay = `${index * 0.05}s`;
-            resultItem.innerHTML = `
-              <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail" loading="lazy">
-              <p>${title}</p>
-            `;
-            resultItem.addEventListener('click', () => playVideo(videoId));
-            resultsContainer.appendChild(resultItem);
-          });
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('result-item');
+                resultItem.style.animationDelay = `${index * 0.05}s`;
+                
+                // Format duration
+                const duration = videoDetails.duration ? formatDuration(videoDetails.duration) : '';
+                
+                // Format view count
+                const viewCount = videoDetails.viewCount ? formatViewCount(videoDetails.viewCount) : '';
+                
+                // Format upload date
+                const uploadDate = formatUploadDate(publishedAt);
+                
+                resultItem.innerHTML = `
+                  <div class="thumbnail-container">
+                    <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail" loading="lazy">
+                    ${duration ? `<span class="video-duration">${duration}</span>` : ''}
+                  </div>
+                  <div class="video-info">
+                    <p class="video-title">${title}</p>
+                    <p class="video-channel">${channelTitle}</p>
+                    <div class="video-meta">
+                      ${viewCount ? `<span class="video-views">${viewCount} views</span>` : ''}
+                      ${viewCount && uploadDate ? '<span class="meta-separator">•</span>' : ''}
+                      ${uploadDate ? `<span class="video-date">${uploadDate}</span>` : ''}
+                    </div>
+                  </div>
+                `;
+                resultItem.addEventListener('click', () => playVideo(videoId));
+                resultsContainer.appendChild(resultItem);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching video details:', error);
+              // Fallback to displaying without durations
+              const resultsContainer = document.getElementById('searchResults');
+              resultsContainer.classList.remove('content-loading');
+              resultsContainer.innerHTML = '';
+              
+              videoResults.slice(0, 10).forEach((item, index) => {
+                const videoId = item.id.videoId;
+                const title = item.snippet.title;
+
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('result-item');
+                resultItem.style.animationDelay = `${index * 0.05}s`;
+                resultItem.innerHTML = `
+                  <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail" loading="lazy">
+                  <p>${title}</p>
+                `;
+                resultItem.addEventListener('click', () => playVideo(videoId));
+                resultsContainer.appendChild(resultItem);
+              });
+            });
         } else {
           const resultsContainer = document.getElementById('searchResults');
           resultsContainer.innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found for your search.</p>';
@@ -799,22 +865,87 @@ function showTrending() {
         });
         
         if (videoResults.length > 0) {
-          // Display search results
-          const resultsContainer = document.getElementById('searchResults');
-          resultsContainer.innerHTML = '';
-          videoResults.slice(0, 10).forEach(item => {
-            const videoId = item.id.videoId;
-            const title = item.snippet.title;
+          // Get video IDs to fetch durations and stats
+          const videoIds = videoResults.slice(0, 10).map(item => item.id.videoId).join(',');
+          
+          // Fetch video details (duration, views, etc.)
+          fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${videoIds}&key=${API_KEY}`)
+            .then(response => response.json())
+            .then(videoDetailsData => {
+              // Create a map of video details by ID
+              const videoDetailsMap = {};
+              if (videoDetailsData.items) {
+                videoDetailsData.items.forEach(item => {
+                  videoDetailsMap[item.id] = {
+                    duration: item.contentDetails.duration,
+                    viewCount: item.statistics.viewCount,
+                    likeCount: item.statistics.likeCount
+                  };
+                });
+              }
+              
+              // Display trending results with animations and video details
+              const resultsContainer = document.getElementById('searchResults');
+              resultsContainer.innerHTML = '';
+              
+              videoResults.slice(0, 10).forEach((item, index) => {
+                const videoId = item.id.videoId;
+                const title = item.snippet.title;
+                const channelTitle = item.snippet.channelTitle;
+                const publishedAt = item.snippet.publishedAt;
+                const videoDetails = videoDetailsMap[videoId] || {};
 
-            const resultItem = document.createElement('div');
-            resultItem.classList.add('result-item');
-            resultItem.innerHTML = `
-              <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail">
-              <p>${title}</p>
-            `;
-            resultItem.addEventListener('click', () => playVideo(videoId));
-            resultsContainer.appendChild(resultItem);
-          });
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('result-item');
+                resultItem.style.animationDelay = `${index * 0.05}s`;
+                
+                // Format duration
+                const duration = videoDetails.duration ? formatDuration(videoDetails.duration) : '';
+                
+                // Format view count
+                const viewCount = videoDetails.viewCount ? formatViewCount(videoDetails.viewCount) : '';
+                
+                // Format upload date
+                const uploadDate = formatUploadDate(publishedAt);
+                
+                resultItem.innerHTML = `
+                  <div class="thumbnail-container">
+                    <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail" loading="lazy">
+                    ${duration ? `<span class="video-duration">${duration}</span>` : ''}
+                  </div>
+                  <div class="video-info">
+                    <p class="video-title">${title}</p>
+                    <p class="video-channel">${channelTitle}</p>
+                    <div class="video-meta">
+                      ${viewCount ? `<span class="video-views">${viewCount} views</span>` : ''}
+                      ${viewCount && uploadDate ? '<span class="meta-separator">•</span>' : ''}
+                      ${uploadDate ? `<span class="video-date">${uploadDate}</span>` : ''}
+                    </div>
+                  </div>
+                `;
+                resultItem.addEventListener('click', () => playVideo(videoId));
+                resultsContainer.appendChild(resultItem);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching video details for trending:', error);
+              // Fallback to displaying without durations
+              const resultsContainer = document.getElementById('searchResults');
+              resultsContainer.innerHTML = '';
+              videoResults.slice(0, 10).forEach(item => {
+                const videoId = item.id.videoId;
+                const title = item.snippet.title;
+
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('result-item');
+                resultItem.innerHTML = `
+                  <img src="${item.snippet.thumbnails.medium.url}" alt="Thumbnail">
+                  <p>${title}</p>
+                `;
+                resultItem.addEventListener('click', () => playVideo(videoId));
+                resultsContainer.appendChild(resultItem);
+              });
+            });
         } else {
           const resultsContainer = document.getElementById('searchResults');
           resultsContainer.innerHTML = '<p style="text-align: center; margin: 2rem; font-size: 1.2rem; color: #666;">No videos found at the moment.</p>';
@@ -1104,6 +1235,65 @@ function initializeKeyboardShortcuts() {
         break;
     }
   });
+}
+
+// Helper function to format ISO 8601 duration to readable format
+function formatDuration(isoDuration) {
+  // Parse ISO 8601 duration format (e.g., PT4M13S, PT1H2M10S, PT45S)
+  const match = isoDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  
+  if (!match) return '';
+  
+  const hours = parseInt(match[1] || 0);
+  const minutes = parseInt(match[2] || 0);
+  const seconds = parseInt(match[3] || 0);
+  
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  } else if (minutes > 0) {
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  } else {
+    return `0:${seconds.toString().padStart(2, '0')}`;
+  }
+}
+
+// Helper function to format view count
+function formatViewCount(count) {
+  const num = parseInt(count);
+  if (num >= 1000000000) {
+    return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+  } else if (num >= 1000000) {
+    return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  } else {
+    return num.toString();
+  }
+}
+
+// Helper function to format upload date
+function formatUploadDate(dateString) {
+  const uploadDate = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now - uploadDate);
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffMonths = Math.floor(diffDays / 30);
+  const diffYears = Math.floor(diffDays / 365);
+  
+  if (diffDays === 0) {
+    return 'Today';
+  } else if (diffDays === 1) {
+    return 'Yesterday';
+  } else if (diffDays < 7) {
+    return `${diffDays} days ago`;
+  } else if (diffDays < 30) {
+    const weeks = Math.floor(diffDays / 7);
+    return weeks === 1 ? '1 week ago' : `${weeks} weeks ago`;
+  } else if (diffMonths < 12) {
+    return diffMonths === 1 ? '1 month ago' : `${diffMonths} months ago`;
+  } else {
+    return diffYears === 1 ? '1 year ago' : `${diffYears} years ago`;
+  }
 }
 
 function toggleKeyboardShortcutsHelp() {
