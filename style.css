@@ -2758,6 +2758,87 @@ a:focus-visible {
   gap: 0.3rem;
   justify-content: center;
 }
+
+
+/* Mobile responsiveness for video player page */
+@media screen and (max-width: 768px) {
+  /* Stack main video content and sidebar vertically */
+  .video-section {
+      flex-direction: column;
+      gap: 1.5rem;
+  }
+
+  .main-video-content, .sidebar-content {
+      width: 100%;
+  }
+
+  /* Make iframe responsive */
+  #videoWrapper iframe {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9; /* maintain 16:9 ratio */
+  }
+
+  /* Adjust description and comments spacing */
+  .video-description-section,
+  .video-comments-section {
+      padding: 0.5rem;
+  }
+
+  /* Related videos scroll horizontally */
+  .related-videos {
+      display: flex;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding-bottom: 0.5rem;
+  }
+
+  .related-videos .related-video-item {
+      min-width: 180px;
+      flex: 0 0 auto;
+  }
+
+  /* Filter buttons wrap neatly */
+  .filter-buttons {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+  }
+
+  /* Navbar search bar full width */
+  .search-container {
+      flex: 1 1 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+  }
+
+  .search-input-wrapper {
+      display: flex;
+      width: 100%;
+  }
+
+  .nav-controls {
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+  }
+
+  /* Footer links stack */
+  .footer-top {
+      flex-direction: column;
+      gap: 1.5rem;
+  }
+
+  .footer-column {
+      width: 100%;
+  }
+
+  /* Scroll top button smaller */
+  #scrollTopBtn {
+      font-size: 1rem;
+      padding: 0.5rem 0.7rem;
+  }
+}
 /* ===== PICTURE-IN-PICTURE (MINI PLAYER) ===== */
 .video-controls-overlay {
   position: absolute;

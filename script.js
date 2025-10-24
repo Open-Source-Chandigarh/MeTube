@@ -1360,6 +1360,12 @@ function toggleKeyboardShortcutsHelp() {
   }
 }
 
+// Enable horizontal scroll for related videos on mobile
+const relatedVideosContainer = document.getElementById('relatedVideos');
+if (relatedVideosContainer) {
+    relatedVideosContainer.style.display = 'flex';
+    relatedVideosContainer.style.overflowX = 'auto';
+}
 // ===== PICTURE-IN-PICTURE FUNCTIONALITY =====
 let isPiPActive = false;
 let miniPlayerDragData = { isDragging: false, startX: 0, startY: 0, initialX: 0, initialY: 0 };
