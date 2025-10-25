@@ -759,6 +759,235 @@ body.navbar-shrink .main-content {
   text-decoration: underline;
 }
 
+/* ===== Site Footer (matches index.html markup .site-footer .footer-inner .footer-top etc) ===== */
+.site-footer {
+  background: linear-gradient(180deg, var(--bg-secondary), #f7f8fa);
+  color: var(--text-secondary);
+  padding: 40px 20px;
+  border-top: 1px solid var(--border-color);
+  font-size: 14px;
+  margin-top: auto; /* ensure footer sticks to bottom when content is short */
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.03);
+}
+
+.site-footer .footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 28px 24px; /* unified padding from legacy/footer section */
+}
+
+/* ensure columns stretch to equal height */
+.site-footer .footer-top {
+  display: flex;
+  align-items: stretch;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 900px) {
+  .site-footer .footer-top > .footer-column {
+    position: relative;
+    padding-right: 28px; 
+  }
+
+  .site-footer .footer-top > .footer-column:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 12%;
+    bottom: 12%;
+    right: 8px;
+    width: 1px;
+    background: rgba(0,0,0,0.06);
+    border-radius: 1px;
+    pointer-events: none;
+  }
+
+  .dark-mode .site-footer .footer-top > .footer-column:not(:last-child)::after {
+    background: rgba(255,255,255,0.06);
+  }
+}
+
+.site-footer .footer-column {
+  flex: 1 1 220px;
+  min-width: 200px;
+}
+
+.site-footer .footer-brand h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+}
+
+.site-footer .footer-tag {
+  margin: 0 0 12px 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.site-footer .footer-social a img {
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  vertical-align: middle;
+  filter: none;
+}
+
+/* Invert X logo in dark mode for better contrast. */
+.dark-mode .site-footer .footer-social a[aria-label="Twitter"] img,
+.dark-mode .site-footer .footer-social a[aria-label="twitter"] img {
+  filter: invert(1) brightness(1.6) saturate(0);
+}
+
+.site-footer .footer-social a img {
+  transition: filter 160ms ease, opacity 160ms ease;
+}
+
+.site-footer .footer-links a,
+.site-footer .footer-resources a {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.site-footer .footer-links a:hover,
+.site-footer .footer-resources a:hover {
+  color: var(--accent-color);
+}
+
+.site-footer .footer-newsletter input[type="email"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.site-footer .footer-newsletter button[type="submit"] {
+  color: white;
+  border: none;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.18s ease, transform 0.12s ease;
+}
+
+/* Align newsletter input and button on one row for wider screens */
+.site-footer .newsletter-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.site-footer .newsletter-form input[type="email"] {
+  flex: 1 1 auto;
+  min-width: 0; /* allow flex children to shrink properly */
+  margin-bottom: 0; /* remove stacked margin when in row */
+}
+
+.site-footer .newsletter-form button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* On small screens stack them vertically for better tap targets */
+@media (max-width: 600px) {
+  /* Keep newsletter input + button on one row on mobile (flexed) */
+  .site-footer .newsletter-form {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  .site-footer .newsletter-form input[type="email"] {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    margin-bottom: 0;
+  }
+
+  .site-footer .newsletter-form button {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  /* Ensure social icons center on narrow screens */
+  .site-footer .footer-social {
+    justify-content: center;
+  }
+}
+
+.site-footer .footer-newsletter button[type="submit"]:hover {
+  transform: translateY(-1px);
+}
+
+.site-footer .footer-bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(0,0,0,0.04);
+  padding-top: 16px;
+  flex-wrap: wrap;
+}
+
+.site-footer .footer-bottom p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.site-footer .keyboard-shortcuts-btn {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Scroll to top button improvements */
+#scrollTopBtn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  z-index: 2000;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+#scrollTopBtn:hover { transform: translateY(-3px); }
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .site-footer .footer-top { gap: 18px; }
+  .site-footer .footer-inner { padding: 0 16px; }
+}
+
+@media (max-width: 600px) {
+  .site-footer .footer-top { flex-direction: column; align-items: center; text-align: center; }
+  .site-footer .footer-column { min-width: 100%; }
+  .site-footer .footer-bottom { justify-content: center; gap: 10px; text-align: center; }
+  .site-footer .keyboard-shortcuts-btn { margin-top: 8px; }
+  #scrollTopBtn { right: 14px; bottom: 14px; }
+}
+
+
 .show-more-btn:hover {
   color: #5a67d8;
   transform: translateY(-1px);
@@ -1220,66 +1449,45 @@ body.navbar-shrink .main-content {
   flex: 1;
 }
 
-/* ===== FOOTER ===== */
-.site-footer {
-  margin-top: auto;
-  background: linear-gradient(90deg, #ffffff 0%, #f7f7f7 100%);
-  color: #222;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.03);
-}
-
-.footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 28px 24px;
-}
-
-.footer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
+/* Footer styles are consolidated under the primary .site-footer block */
 
 .footer-brand h3 {
-  margin: 0;
+    margin: 0;
   font-size: 1.25rem;
   color: #b30b0b;
 }
 
 .footer-tag {
-  margin: 4px 0 0 0;
+    margin: 4px 0 0 0;
   font-size: 0.9rem;
   color: #666;
 }
 
 .footer-links {
-  display: flex;
+    display: flex;
   gap: 16px;
   align-items: left;
 }
 
 .footer-links a {
-  color: #333;
+    color: #333;
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.15s ease;
 }
 
 .footer-links a:hover {
-  color: #b30b0b;
+    color: #b30b0b;
 }
 
 .footer-social {
-  display: flex;
+    display: flex;
   gap: 12px;
   align-items: center;
 }
 
 .footer-social img {
-  width: 28px;
+    width: 28px;
   height: 28px;
   object-fit: contain;
   filter: grayscale(0.2);
@@ -1287,12 +1495,12 @@ body.navbar-shrink .main-content {
 }
 
 .footer-social a:hover img {
-  transform: translateY(-3px);
+    transform: translateY(-3px);
   filter: grayscale(0);
 }
 
 .footer-bottom {
-  margin-top: 18px;
+    margin-top: 18px;
   border-top: 1px solid rgba(0, 0, 0, 0.04);
   padding-top: 12px;
   text-align: center;
@@ -1305,7 +1513,7 @@ body.navbar-shrink .main-content {
 }
 
 .keyboard-shortcuts-btn {
-  background: rgba(255, 71, 87, 0.1);
+    background: rgba(255, 71, 87, 0.1);
   border: 1px solid rgba(255, 71, 87, 0.3);
   color: #ff4757;
   padding: 8px 16px;
@@ -1319,28 +1527,28 @@ body.navbar-shrink .main-content {
 }
 
 .keyboard-shortcuts-btn:hover {
-  background: rgba(255, 71, 87, 0.2);
+    background: rgba(255, 71, 87, 0.2);
   border-color: #ff4757;
   transform: translateY(-2px);
 }
 
 .keyboard-shortcuts-btn .material-symbols-outlined {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 .dark-mode .keyboard-shortcuts-btn {
-  background: rgba(255, 71, 87, 0.15);
+    background: rgba(255, 71, 87, 0.15);
   border-color: rgba(255, 71, 87, 0.4);
   color: #ff4757;
 }
 
 .dark-mode .keyboard-shortcuts-btn:hover {
-  background: rgba(255, 71, 87, 0.25);
+    background: rgba(255, 71, 87, 0.25);
   border-color: #ff4757;
 }
 
 .footer-column {
-  min-width: 180px;
+    min-width: 180px;
   flex: 1 1 220px;
   display: flex;
   flex-direction: column;
@@ -1348,30 +1556,30 @@ body.navbar-shrink .main-content {
 }
 
 .footer-column h4 {
-  margin: 0 0 6px 0;
+    margin: 0 0 6px 0;
   font-size: 1rem;
   color: #222;
 }
 
 .footer-column a {
-  color: #444;
+    color: #444;
   text-decoration: none;
   font-size: 0.95rem;
   margin: 4px 0;
 }
 
 .footer-column a:hover {
-  color: #b30b0b;
+    color: #b30b0b;
 }
 
 .newsletter-form {
-  display: flex;
+    display: flex;
   gap: 8px;
   align-items: center;
 }
 
 .newsletter-form input[type="email"] {
-  flex: 1;
+    flex: 1;
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -1379,7 +1587,7 @@ body.navbar-shrink .main-content {
 }
 
 .newsletter-form button {
-  background: linear-gradient(135deg, #b30b0b, #ff4757);
+    background: linear-gradient(135deg, #b30b0b, #ff4757);
   color: white;
   border: none;
   padding: 8px 12px;
@@ -1389,11 +1597,11 @@ body.navbar-shrink .main-content {
 }
 
 .newsletter-form button:hover {
-  transform: translateY(-2px);
+    transform: translateY(-2px);
 }
 
 .newsletter-msg {
-  margin-top: 8px;
+    margin-top: 8px;
   font-size: 0.9rem;
   color: #2a7a2a;
 }
@@ -1431,30 +1639,30 @@ body.navbar-shrink .main-content {
   box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.6);
 }
 
-.dark-mode .footer-links a {
+.dark-mode .site-footer .footer-links a {
   color: #ddd;
 }
 
-.dark-mode .footer-links a:hover {
+.dark-mode .site-footer .footer-links a:hover {
   color: #ffb4b4;
 }
 
-.dark-mode .footer-tag,
-.dark-mode .footer-bottom {
+.dark-mode .site-footer .footer-tag,
+.dark-mode .site-footer .footer-bottom {
   color: #fff;
 }
 
 .dark-mode .site-footer,
-.dark-mode .footer-column h4,
-.dark-mode .footer-column a,
-.dark-mode .footer-bottom,
-.dark-mode .footer-tag {
+.dark-mode .site-footer .footer-column h4,
+.dark-mode .site-footer .footer-column a,
+.dark-mode .site-footer .footer-bottom,
+.dark-mode .site-footer .footer-tag {
   color: #ffffff;
 }
-.dark-mode .footer-column a {
+.dark-mode .site-footer .footer-column a {
   color: #ffffff;
 }
-.dark-mode .footer-column a:hover {
+.dark-mode .site-footer .footer-column a:hover {
   color: #ffd6d6;
 }
 
