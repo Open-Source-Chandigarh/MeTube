@@ -897,17 +897,29 @@ body.navbar-shrink .main-content {
 
 /* On small screens stack them vertically for better tap targets */
 @media (max-width: 600px) {
+  /* Keep newsletter input + button on one row on mobile (flexed) */
   .site-footer .newsletter-form {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
   }
 
   .site-footer .newsletter-form input[type="email"] {
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    margin-bottom: 0;
   }
 
   .site-footer .newsletter-form button {
-    width: 100%;
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  /* Ensure social icons center on narrow screens */
+  .site-footer .footer-social {
+    justify-content: center;
   }
 }
 
