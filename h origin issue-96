@@ -1,0 +1,97 @@
+[33m6599bd2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32missue-96[m[33m)[m Fix: Improve mobile responsiveness for video player page (#96)
+[33mf91dfdc[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/issue-fix[m[33m, [m[1;32mmain[m[33m, [m[1;32missue-fix[m[33m)[m Fix: aligned theme button in navbar for better layout
+[33mb2da9cb[m[33m ([m[1;31mupstream/main[m[33m, [m[1;31mupstream/HEAD[m[33m)[m Merge pull request #103 from Jbhawal/fix/quick-link-list-alignment
+[33m8077cc6[m Delete styleUpdate.css
+[33m130d5ad[m Merge pull request #106 from YUVRAJRANA10/feat/add-keyboard-shortcuts
+[33m8316a23[m Merge pull request #105 from YUVRAJRANA10/docs/add-contributing-guide
+[33mac8d935[m Merge pull request #97 from Mayanks584/feature/enhance-ux-improvements
+[33mfa2f78f[m feat: Add keyboard shortcuts for better navigation
+[33m732780f[m docs: Add comprehensive contributing guidelines and templates
+[33m10d47ba[m quick links list left aligned
+[33m025555f[m Merge branch 'main' into feature/enhance-ux-improvements
+[33m7512533[m quick links list left aligned
+[33m2838340[m Merge pull request #102 from Jbhawal/feat/bug-issue-template
+[33mf9a7fab[m updated the css files merged them into one
+[33m6266075[m bug issue report template added
+[33m6da6736[m add comprehensive ui/ux improvements
+[33md35323a[m Resolved merge conflicts from upstream/main
+[33m86d3707[m Merge pull request #86 from pritamsps/main
+[33m64afef4[m Merge pull request #85 from 150202-Pratham/fix-responsiveness
+[33mc0218ef[m feat: Add comprehensive UI/UX improvements
+[33mc282fe3[m Merge pull request #87 from vaibhav-katyal/fix-added-favicon
+[33ma8889e8[m Fixes- Updated the favicon according to the new logo
+[33m68dd8fa[m Updated index.html
+[33m251ed0a[m updated style.css
+[33m758363b[m updated script.js
+[33m22bf250[m Added the responsiveness to metube
+[33m1f526ad[m Merge pull request #79 from Coder-MayankSaini/mayank_saini
+[33m46df178[m fix: resolve syntax error by moving scrollTopBtn initialization inside DOMContentLoaded
+[33mbfd7121[m Merge pull request #75 from MissMisha/main
+[33m749e2f0[m feat(ui): add shimmer loading skeletons for search, comments, and related videos; replace text loaders
+[33md282033[m feat: cache search results in sessionStorage (5m TTL)
+[33m44a41a5[m logo made clickable
+[33m3c691c6[m Merge pull request #73 from YUVRAJRANA10/voice-search-feature
+[33m6b3cc35[m feat: Add dark mode support for voice search feature
+[33m162e902[m feat: Add voice search functionality with YouTube-like design
+[33m2467984[m Merge pull request #68 from tarakeshwarb/background
+[33m8c95f60[m logo in night mode fixed
+[33m33fa006[m Merge branch 'main' into background
+[33m1ff7a4c[m Merge pull request #63 from pulkitgarg04/fix/dark-mode-ui
+[33m2a874d5[m Merge branch 'main' into fix/dark-mode-ui
+[33m134a750[m Merge pull request #69 from HarshitAggarwal10/Issue-60
+[33m2a5b94e[m Merge pull request #56 from MissMisha/main
+[33m029884a[m alignment fixed properlly
+[33m10380ce[m Merge remote-tracking branch 'upstream/main'
+[33m7c9826d[m alignment fixed
+[33m0855951[m Implemented scroll to top button
+[33m4560e16[m modifed background of filter buttons
+[33m9056c93[m chore: make X logo white for dark mode and refactor the code a bit
+[33m1c14ffe[m fix: resolve merge conflicts in style.css (dark-mode/footer/link styles)
+[33m33a6c70[m fix: dark mode on the footer and clickable links
+[33mf39b182[m Merge pull request #58 from pulkitgarg04/ui/change-footer-layout
+[33m7361f7b[m Update GitHub link for contributing section
+[33m75664b3[m change footer layout
+[33m8947f2a[m Merge pull request #55 from pulkitgarg04/ui/remove-channel-from-search
+[33m1c18394[m logo added
+[33meceb3b3[m feat: Filter out channel results from video search - ensure only playable content
+[33m782186f[m Merge pull request #52 from pulkitgarg04/ui/youtube-layout-redesign
+[33m97e7718[m Merge branch 'ui/youtube-layout-redesign' of https://github.com/pulkitgarg04/MeTube into ui/youtube-layout-redesign
+[33mff78269[m feat: add button to view full description
+[33m00579fc[m Merge branch 'main' into ui/youtube-layout-redesign
+[33m1705589[m Updated Api key
+[33mca8b3a7[m feat: show comments in the layout
+[33m1f0f480[m feat: Implement YouTube-like Layout with Auto Description & Related Videos Sidebar
+[33m41ac8e7[m Merge pull request #44 from pulkitgarg04/feature/scroll-to-video-on-thumbnail-click
+[33m3b8f1ee[m Merge pull request #40 from YUVRAJRANA10/feature-ui-ux-fixes-36
+[33me634571[m feat: Add smooth scroll to video section when thumbnail is clicked
+[33m270942e[m feat: Implement UI/UX improvements and fix layout issues
+[33mb903213[m Merge pull request #39 from YUVRAJRANA10/fix-readme-upstream-url
+[33mf79096e[m Docs: Correct upstream URL in contributing guide
+[33mf476120[m Merge pull request #34 from YasanayakeR/rohansi
+[33mfd86d12[m added social media icons and changed the background color of footer
+[33m5c04ebf[m Merge pull request #33 from BowlPulp/main
+[33me3ddbd5[m Addition of Meta Tags to boost seo for x and fb
+[33mccc81a1[m Merge pull request #31 from BowlPulp/main
+[33m2afd1ee[m Footer added
+[33ma69f897[m Merge pull request #29 from HarshitAggarwal10/Issue_#27
+[33m4cf62de[m fix: fixes Issue_#27
+[33mee5288c[m Merge pull request #28 from Arshia-163/issue_26
+[33mb3deece[m Solved issue_26
+[33md382770[m Merge pull request #23 from Harshcbx8/The-Dark-Mode-in-Header-and-the-default-Youtube-layout-issue-is-Fixed
+[33maaa87ac[m Merge pull request #25 from Arshia-163/main
+[33mfe5afa7[m Created Learn.md
+[33md34237a[m Fixed Dark mod in Header
+[33mc9bc591[m Fixed Dark mod in Header and Default Video layout
+[33me9b2084[m Merge pull request #16 from RaghavOG/main
+[33m27095d0[m Merge pull request #20 from ChauhanGauri/issue_9
+[33m662a20c[m fix:fixes issue #9 improvement in search functionality by enabling search with enter key
+[33me685f69[m Merge pull request #14 from HarshitAggarwal10/Issue_#8
+[33m3df85cb[m Added favicon
+[33m9a2255e[m fix: fixes Issue_#13
+[33mb8aa22c[m Merge pull request #12 from HarshitAggarwal10/Issue_#8
+[33m0e873bc[m fix: fixes Issue_#8
+[33m4ff7390[m changes: responsiveness
+[33md256a79[m changes: fixed issue #8
+[33m012a059[m improved UI for search bar , button , dark mode button and metube logo
+[33ma59cd45[m Update README.md
+[33m72267d7[m project
