@@ -1789,7 +1789,6 @@ body.navbar-shrink .main-content {
   margin: 2rem auto;
   max-width: 1400px;
   padding: 0 2rem;
-  animation: fadeInScale 0.8s ease-out;
 }
 
 @keyframes fadeInScale {
@@ -1811,27 +1810,16 @@ body.navbar-shrink .main-content {
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.4s ease;
   max-width: 100%;
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
 }
 
-.welcome-content:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
 .welcome-content h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #ff4757, #ff3742, #ff4757);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
+  color: #ff4757;
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
@@ -1856,7 +1844,6 @@ body.navbar-shrink .main-content {
 .welcome-icon {
   font-size: 4rem;
   margin-top: 1rem;
-  animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
