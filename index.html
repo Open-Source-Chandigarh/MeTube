@@ -70,7 +70,7 @@
         </div>
     </nav>
 
-    <!--Filter Buttons-->
+    
     <div class="main-content">
         <div id="filterButtons" class="filter-buttons">
             <button onclick="showTrending()" class="filter-btn" data-category="all">All</button>
@@ -82,16 +82,16 @@
             <button onclick="searchVideos('comedy')" class="filter-btn" data-category="comedy">Comedy</button>
             
         </div>
-    <div class="video-section">
+    <!-- <div class="video-section">
         <div class="main-video-content">
-            <!--Back Toolbar (moved here to sit above the video player) -->
+            Back Toolbar (moved here to sit above the video player)
             <div id="backToolbar" class="back-toolbar">
                 <button id="backButton" title="Back" aria-label="Go back">
                     <span class="material-symbols-outlined">arrow_back</span>
                     <span class="back-button-text">Back</span>
                 </button>
-            </div>
-            <div class="video-container">
+            </div> --> 
+            <!-- <div class="video-container">
                 <div id="videoWrapper">
                     <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
                     <div class="video-controls-overlay">
@@ -100,25 +100,25 @@
                         </button>
                     </div>
                 </div>
-                <h2 id="videoTitle" class="video-title"></h2>
+                <h2 id="videoTitle" class="video-title"></h2> -->
                 
-                <div class="video-description-section">
+                <!-- <div class="video-description-section">
                     <div class="description-container" id="descriptionContainer">
                         <h3>Description</h3>
                         <p id="videoDescription"></p>
                         <button id="showMoreBtn" class="show-more-btn" onclick="toggleDescription()" style="display: none;">
                             Show More
                         </button>
-                    </div>
-                </div>
+                    </div> -->
+                <!-- </div> -->
                 
-                <div class="video-comments-section">
+                <!-- <div class="video-comments-section">
                     <div class="comments-container" id="commentsContainer">
                         <h3>Comments</h3>
                         <div id="commentsLoading" class="comments-loading" style="display: none;">
                             <p>Loading comments...</p>
-                        </div>
-                        <div id="commentsList" class="comments-list">
+                        </div> -->
+                        <!-- <div id="commentsList" class="comments-list">
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,52 @@
         <div class="sidebar-content">
             <h3 class="sidebar-title">Related Videos</h3>
             <div id="relatedVideos" class="related-videos">
+            </div> -->
+    <div class="video-section responsive-video-section">
+    <div class="main-video-content responsive-main-video">
+        <!--Back Toolbar -->
+        <div id="backToolbar" class="back-toolbar">
+            <button id="backButton" title="Back" aria-label="Go back">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span class="back-button-text">Back</span>
+            </button>
+        </div>
+
+        <div class="video-container">
+            <div id="videoWrapper" class="responsive-video-wrapper">
+                <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
             </div>
+            <h2 id="videoTitle" class="video-title"></h2>
+
+            <div class="video-description-section">
+                <div class="description-container" id="descriptionContainer">
+                    <h3>Description</h3>
+                    <p id="videoDescription"></p>
+                    <button id="showMoreBtn" class="show-more-btn" onclick="toggleDescription()" style="display: none;">
+                        Show More
+                    </button>
+                </div>
+            </div>
+
+            <div class="video-comments-section">
+                <div class="comments-container" id="commentsContainer">
+                    <h3>Comments</h3>
+                    <div id="commentsLoading" class="comments-loading" style="display: none;">
+                        <p>Loading comments...</p>
+                    </div>
+                    <div id="commentsList" class="comments-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar-content responsive-sidebar">
+        <h3 class="sidebar-title">Related Videos</h3>
+        <div id="relatedVideos" class="related-videos"></div>
+    </div>
+</div>
+
+        
         </div>
     </div>
 
