@@ -3085,3 +3085,33 @@ section {
     padding-top: 0 !important;
   }
 }
+
+
+/* Chatbot icon next to the search bar */
+#chat-inline-icon {
+  background: linear-gradient(135deg, #0026ff, #ff0000);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  color: #fff;
+  margin-left: 6px;        /* space from search icon */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+#chat-inline-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(128, 0, 255, 0.6);
+}
+
+/* Align the search section properly */
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

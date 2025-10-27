@@ -4,12 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MeTube - Explore, watch, and fetch details about YouTube videos all in one place. Access video information, related content, and more with ease.">
-    <meta name="keywords" content="MeTube, YouTube video search, watch YouTube videos, video information, video data, video details, video player, explore videos">
+    <meta name="description"
+        content="MeTube - Explore, watch, and fetch details about YouTube videos all in one place. Access video information, related content, and more with ease.">
+    <meta name="keywords"
+        content="MeTube, YouTube video search, watch YouTube videos, video information, video data, video details, video player, explore videos">
     <meta name="author" content="MeTube Team">
 
     <meta property="og:title" content="MeTube - Watch and Explore YouTube Videos">
-    <meta property="og:description" content="MeTube allows you to watch YouTube videos and fetch details like description, views, and related videos.">
+    <meta property="og:description"
+        content="MeTube allows you to watch YouTube videos and fetch details like description, views, and related videos.">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MeTube - Watch YouTube Videos and Fetch Information">
@@ -19,69 +22,86 @@
     <link rel="shortcut icon" href="favicon/favicon-16x16.png" type="image/x-icon">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-   
+
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot/chatbot.css">
+
 </head>
 
 <body id="home">
     <nav class="navbar">
-      <a href="index.html">  <img src="./assets/logo.png" style="height: 75px;"> </a>
+        <a href="index.html"> <img src="./assets/logo.png" style="height: 75px;"> </a>
         <div class="search-container">
-            <div class="search-input-wrapper">
-                <input type="text" id="searchInput" placeholder="Search videos, channels, or keywords" aria-label="Search videos">
-                <button id="voiceSearchButton" onclick="startVoiceSearch()" title="Search with your voice" aria-label="Voice search">
-                    <span class="material-symbols-outlined">mic</span>
-                </button>
-            </div>
-            <button id="searchButton" onclick="searchVideos()">  
-                <span class="material-symbols-outlined">search</span>
-            </button>
-        </div>
-        
-        <div class="nav-controls">
-            <button id="toggleViewButton" onclick="toggleViewMode()" title="Toggle view" aria-label="Toggle between grid and list view">
-                <span id="viewIcon" class="material-symbols-outlined">grid_view</span>
-            </button>
-            
-            <div class="theme-selector">
-                <button id="toggleThemeButton" onclick="toggleThemeMenu()" title="Theme options" aria-label="Select theme">
-                    <span id="themeIcon" class="material-symbols-outlined">palette</span>
-                </button>
-                <div id="themeMenu" class="theme-menu hidden">
-                    <button onclick="setTheme('light')" class="theme-option">
-                        <span class="material-symbols-outlined">light_mode</span>
-                        <span>Light</span>
-                    </button>
-                    <button onclick="setTheme('dark')" class="theme-option">
-                        <span class="material-symbols-outlined">dark_mode</span>
-                        <span>Dark</span>
-                    </button>
-                    <button onclick="setTheme('sepia')" class="theme-option">
-                        <span class="material-symbols-outlined">auto_stories</span>
-                        <span>Sepia</span>
-                    </button>
-                    <button onclick="setTheme('contrast')" class="theme-option">
-                        <span class="material-symbols-outlined">contrast</span>
-                        <span>High Contrast</span>
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" id="searchInput" placeholder="Search videos, channels, or keywords"
+                        aria-label="Search videos">
+
+                    <button id="voiceSearchButton" onclick="startVoiceSearch()" title="Search with your voice">
+                        <span class="material-symbols-outlined">mic</span>
                     </button>
                 </div>
+
+                <!-- Original search button -->
+                <button id="searchButton" onclick="searchVideos()" title="Search">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+                <!-- Chatbot Icon beside Search -->
+                <button id="chat-inline-icon" title="Chat Assistant" aria-label="Chat Assistant">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                </button>
+
+
             </div>
-        </div>
+
+
+            <div class="nav-controls">
+                <button id="toggleViewButton" onclick="toggleViewMode()" title="Toggle view"
+                    aria-label="Toggle between grid and list view">
+                    <span id="viewIcon" class="material-symbols-outlined">grid_view</span>
+                </button>
+
+                <div class="theme-selector">
+                    <button id="toggleThemeButton" onclick="toggleThemeMenu()" title="Theme options"
+                        aria-label="Select theme">
+                        <span id="themeIcon" class="material-symbols-outlined">palette</span>
+                    </button>
+                    <div id="themeMenu" class="theme-menu hidden">
+                        <button onclick="setTheme('light')" class="theme-option">
+                            <span class="material-symbols-outlined">light_mode</span>
+                            <span>Light</span>
+                        </button>
+                        <button onclick="setTheme('dark')" class="theme-option">
+                            <span class="material-symbols-outlined">dark_mode</span>
+                            <span>Dark</span>
+                        </button>
+                        <button onclick="setTheme('sepia')" class="theme-option">
+                            <span class="material-symbols-outlined">auto_stories</span>
+                            <span>Sepia</span>
+                        </button>
+                        <button onclick="setTheme('contrast')" class="theme-option">
+                            <span class="material-symbols-outlined">contrast</span>
+                            <span>High Contrast</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
     </nav>
 
-    
+
     <div class="main-content">
         <div id="filterButtons" class="filter-buttons">
             <button onclick="showTrending()" class="filter-btn" data-category="all">All</button>
             <button onclick="searchVideos('sports')" class="filter-btn" data-category="sports">Sports</button>
-            <button onclick="searchVideos('entertainment')" class="filter-btn" data-category="entertainment">Entertainment</button>
+            <button onclick="searchVideos('entertainment')" class="filter-btn"
+                data-category="entertainment">Entertainment</button>
             <button onclick="searchVideos('music')" class="filter-btn" data-category="music">Music</button>
             <button onclick="searchVideos('news')" class="filter-btn" data-category="news">News</button>
             <button onclick="searchVideos('gaming')" class="filter-btn" data-category="gaming">Gaming</button>
             <button onclick="searchVideos('comedy')" class="filter-btn" data-category="comedy">Comedy</button>
-            
+
         </div>
-    <!-- <div class="video-section">
+        <!-- <div class="video-section">
         <div class="main-video-content">
             Back Toolbar (moved here to sit above the video player)
             <div id="backToolbar" class="back-toolbar">
@@ -89,8 +109,8 @@
                     <span class="material-symbols-outlined">arrow_back</span>
                     <span class="back-button-text">Back</span>
                 </button>
-            </div> --> 
-            <!-- <div class="video-container">
+            </div> -->
+        <!-- <div class="video-container">
                 <div id="videoWrapper">
                     <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
                     <div class="video-controls-overlay">
@@ -100,8 +120,8 @@
                     </div>
                 </div>
                 <h2 id="videoTitle" class="video-title"></h2> -->
-                
-                <!-- <div class="video-description-section">
+
+        <!-- <div class="video-description-section">
                     <div class="description-container" id="descriptionContainer">
                         <h3>Description</h3>
                         <p id="videoDescription"></p>
@@ -109,15 +129,15 @@
                             Show More
                         </button>
                     </div> -->
-                <!-- </div> -->
-                
-                <!-- <div class="video-comments-section">
+        <!-- </div> -->
+
+        <!-- <div class="video-comments-section">
                     <div class="comments-container" id="commentsContainer">
                         <h3>Comments</h3>
                         <div id="commentsLoading" class="comments-loading" style="display: none;">
                             <p>Loading comments...</p>
                         </div> -->
-                        <!-- <div id="commentsList" class="comments-list">
+        <!-- <div id="commentsList" class="comments-list">
                         </div>
                     </div>
                 </div>
@@ -128,188 +148,208 @@
             <h3 class="sidebar-title">Related Videos</h3>
             <div id="relatedVideos" class="related-videos">
             </div> -->
-    <div class="video-section responsive-video-section">
-    <div class="main-video-content responsive-main-video">
-        <!--Back Toolbar -->
-        <div id="backToolbar" class="back-toolbar">
-            <button id="backButton" title="Back" aria-label="Go back">
-                <span class="material-symbols-outlined">arrow_back</span>
-                <span class="back-button-text">Back</span>
-            </button>
-        </div>
-
-        <div class="video-container">
-            <div id="videoWrapper" class="responsive-video-wrapper">
-                <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <h2 id="videoTitle" class="video-title"></h2>
-
-            <div class="video-description-section">
-                <div class="description-container" id="descriptionContainer">
-                    <h3>Description</h3>
-                    <p id="videoDescription"></p>
-                    <button id="showMoreBtn" class="show-more-btn" onclick="toggleDescription()" style="display: none;">
-                        Show More
+        <div class="video-section responsive-video-section">
+            <div class="main-video-content responsive-main-video">
+                <!--Back Toolbar -->
+                <div id="backToolbar" class="back-toolbar">
+                    <button id="backButton" title="Back" aria-label="Go back">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        <span class="back-button-text">Back</span>
                     </button>
                 </div>
-            </div>
 
-            <div class="video-comments-section">
-                <div class="comments-container" id="commentsContainer">
-                    <h3>Comments</h3>
-                    <div id="commentsLoading" class="comments-loading" style="display: none;">
-                        <p>Loading comments...</p>
+                <div class="video-container">
+                    <div id="videoWrapper" class="responsive-video-wrapper">
+                        <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
                     </div>
-                    <div id="commentsList" class="comments-list"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <h2 id="videoTitle" class="video-title"></h2>
 
-    <div class="sidebar-content responsive-sidebar">
-        <h3 class="sidebar-title">Related Videos</h3>
-        <div id="relatedVideos" class="related-videos"></div>
-    </div>
-</div>
-
-        
-        </div>
-    </div>
-
-        <div id="welcomeMessage" class="welcome-message">
-            <div class="welcome-content">
-                <h2>Welcome to MeTube</h2>
-                <p>Discover and watch YouTube videos faster. Use the search bar above or browse categories to get started.</p>
-                <div class="welcome-icon">🎬</div>
-            </div>
-        </div>
-
-        <div id="searchResults" class="search-results"></div>
-        
-        <!-- Templates for loading skeletons -->
-        <template id="searchResultSkeleton">
-            <div class="result-item skeleton-card" role="presentation" aria-hidden="true">
-                <div class="skeleton-thumb skeleton-shimmer"></div>
-                <div class="skeleton-content">
-                    <div class="skeleton-line w-80 skeleton-shimmer"></div>
-                    <div class="skeleton-line w-60 skeleton-shimmer"></div>
-                </div>
-            </div>
-        </template>
-
-        <template id="commentSkeleton">
-            <div class="comment-item" role="presentation" aria-hidden="true">
-                <div class="skeleton-line w-40 skeleton-shimmer"></div>
-                <div class="skeleton-line w-90 skeleton-shimmer"></div>
-                <div class="skeleton-line w-70 skeleton-shimmer"></div>
-            </div>
-        </template>
-
-        <template id="relatedVideoSkeleton">
-            <div class="related-skeleton-item" role="presentation" aria-hidden="true">
-                <div class="related-skeleton-thumb skeleton-shimmer"></div>
-                <div class="related-skeleton-info">
-                    <div class="skeleton-line w-80 skeleton-shimmer"></div>
-                    <div class="skeleton-line w-50 skeleton-shimmer"></div>
-                </div>
-            </div>
-        </template>
-    </div>
-
-        <footer class="site-footer">
-            <div class="footer-inner">
-                        <div class="footer-top">
-                            <div class="footer-column footer-brand">
-                                <h3>MeTube</h3>
-                                <p class="footer-tag">A cleaner, distraction-reduced YouTube experience — search, watch, and explore videos with fewer distractions.</p>
-                                <div class="footer-social">
-                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                                        <img src="./assets/facebook.png" alt="facebook logo">
-                                    </a>
-                                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                                        <img src="./assets/twitter.png" alt="twitter logo">
-                                    </a>
-                                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                                        <img src="./assets/instagram.png" alt="instagram logo">
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="footer-column footer-links">
-                                <h4>Quick Links</h4>
-                                <a href="./pages/privacy.html">Privacy Policy</a>
-                                <a href="./pages/terms.html">Terms of Service</a>
-                                <a href="./pages/contact.html">Contact Us</a>
-                            </div>
-
-                            <div class="footer-column footer-resources">
-                                <h4>Resources</h4>
-                                <a href="https://github.com/Open-Source-Chandigarh/MeTube" target="_blank" rel="noopener noreferrer">Contributing</a>
-                                <a href="#">API Documentation</a>
-                                <a href="#">Roadmap</a>
-                            </div>
-
-                            <div class="footer-column footer-newsletter">
-                                <h4>Newsletter</h4>
-                                <p>Get updates on new features and improvements. No spam — unsubscribe anytime.</p>
-                                <form id="newsletterForm" class="newsletter-form" onsubmit="return handleSubscribe(event)">
-                                    <input type="email" id="newsletterEmail" placeholder="Your email address" required>
-                                    <button type="submit">Subscribe</button>
-                                </form>
-                                <p id="newsletterMsg" class="newsletter-msg" aria-live="polite"></p>
-                            </div>
-                        </div>
-
-                        <div class="footer-bottom">
-                            <p>&copy; <span id="footerYear"></span> MeTube. All rights reserved.</p>
-                            <button class="keyboard-shortcuts-btn" onclick="toggleKeyboardShortcutsHelp()" title="View keyboard shortcuts">
-                                <span class="material-symbols-outlined">keyboard</span>
-                                Press ? for shortcuts
+                    <div class="video-description-section">
+                        <div class="description-container" id="descriptionContainer">
+                            <h3>Description</h3>
+                            <p id="videoDescription"></p>
+                            <button id="showMoreBtn" class="show-more-btn" onclick="toggleDescription()"
+                                style="display: none;">
+                                Show More
                             </button>
                         </div>
-            </div>
-        </footer>
-        <button id="scrollTopBtn" title="Go to top">↑</button>
+                    </div>
 
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const y = new Date().getFullYear();
-                const el = document.getElementById('footerYear');
-                if (el) el.textContent = y;
-            });
-        </script>
-
-        <!-- Voice Search Modal -->
-        <div id="voiceSearchModal" class="voice-search-modal">
-            <div class="voice-search-content">
-                <div class="voice-mic-icon">
-                    <span class="material-symbols-outlined">mic</span>
+                    <div class="video-comments-section">
+                        <div class="comments-container" id="commentsContainer">
+                            <h3>Comments</h3>
+                            <div id="commentsLoading" class="comments-loading" style="display: none;">
+                                <p>Loading comments...</p>
+                            </div>
+                            <div id="commentsList" class="comments-list"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="voice-status-text" id="voiceStatusText">Listening...</div>
-                <div class="voice-transcript" id="voiceTranscript">Say something...</div>
-                <button class="voice-close-btn" onclick="stopVoiceSearch()">Cancel</button>
+            </div>
+
+            <div class="sidebar-content responsive-sidebar">
+                <h3 class="sidebar-title">Related Videos</h3>
+                <div id="relatedVideos" class="related-videos"></div>
             </div>
         </div>
 
-        <!-- Mini Player (Picture-in-Picture) -->
-        <div id="miniPlayer" class="mini-player" style="display: none;">
-            <div class="mini-player-header" id="miniPlayerHeader">
-                <span class="mini-player-title" id="miniPlayerTitle">Now Playing</span>
-                <div class="mini-player-controls">
-                    <button class="mini-control-btn" onclick="maximizeMiniPlayer()" title="Maximize" aria-label="Maximize video">
-                        <span class="material-symbols-outlined">open_in_full</span>
-                    </button>
-                    <button class="mini-control-btn" onclick="closeMiniPlayer()" title="Close" aria-label="Close mini player">
-                        <span class="material-symbols-outlined">close</span>
-                    </button>
-                </div>
-            </div>
-            <div class="mini-player-video">
-                <!-- iframe will be moved here dynamically -->
+
+    </div>
+    </div>
+
+    <div id="welcomeMessage" class="welcome-message">
+        <div class="welcome-content">
+            <h2>Welcome to MeTube</h2>
+            <p>Discover and watch YouTube videos faster. Use the search bar above or browse categories to get started.
+            </p>
+            <div class="welcome-icon">🎬</div>
+        </div>
+    </div>
+
+    <div id="searchResults" class="search-results"></div>
+
+    <!-- Templates for loading skeletons -->
+    <template id="searchResultSkeleton">
+        <div class="result-item skeleton-card" role="presentation" aria-hidden="true">
+            <div class="skeleton-thumb skeleton-shimmer"></div>
+            <div class="skeleton-content">
+                <div class="skeleton-line w-80 skeleton-shimmer"></div>
+                <div class="skeleton-line w-60 skeleton-shimmer"></div>
             </div>
         </div>
-        <script src="script.js"></script>
+    </template>
+
+    <template id="commentSkeleton">
+        <div class="comment-item" role="presentation" aria-hidden="true">
+            <div class="skeleton-line w-40 skeleton-shimmer"></div>
+            <div class="skeleton-line w-90 skeleton-shimmer"></div>
+            <div class="skeleton-line w-70 skeleton-shimmer"></div>
+        </div>
+    </template>
+
+    <template id="relatedVideoSkeleton">
+        <div class="related-skeleton-item" role="presentation" aria-hidden="true">
+            <div class="related-skeleton-thumb skeleton-shimmer"></div>
+            <div class="related-skeleton-info">
+                <div class="skeleton-line w-80 skeleton-shimmer"></div>
+                <div class="skeleton-line w-50 skeleton-shimmer"></div>
+            </div>
+        </div>
+    </template>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-column footer-brand">
+                    <h3>MeTube</h3>
+                    <p class="footer-tag">A cleaner, distraction-reduced YouTube experience — search, watch, and explore
+                        videos with fewer distractions.</p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <img src="./assets/facebook.png" alt="facebook logo">
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <img src="./assets/twitter.png" alt="twitter logo">
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                            aria-label="Instagram">
+                            <img src="./assets/instagram.png" alt="instagram logo">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-column footer-links">
+                    <h4>Quick Links</h4>
+                    <a href="./pages/privacy.html">Privacy Policy</a>
+                    <a href="./pages/terms.html">Terms of Service</a>
+                    <a href="./pages/contact.html">Contact Us</a>
+                </div>
+
+                <div class="footer-column footer-resources">
+                    <h4>Resources</h4>
+                    <a href="https://github.com/Open-Source-Chandigarh/MeTube" target="_blank"
+                        rel="noopener noreferrer">Contributing</a>
+                    <a href="#">API Documentation</a>
+                    <a href="#">Roadmap</a>
+                </div>
+
+                <div class="footer-column footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <p>Get updates on new features and improvements. No spam — unsubscribe anytime.</p>
+                    <form id="newsletterForm" class="newsletter-form" onsubmit="return handleSubscribe(event)">
+                        <input type="email" id="newsletterEmail" placeholder="Your email address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                    <p id="newsletterMsg" class="newsletter-msg" aria-live="polite"></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="footerYear"></span> MeTube. All rights reserved.</p>
+                <button class="keyboard-shortcuts-btn" onclick="toggleKeyboardShortcutsHelp()"
+                    title="View keyboard shortcuts">
+                    <span class="material-symbols-outlined">keyboard</span>
+                    Press ? for shortcuts
+                </button>
+            </div>
+        </div>
+    </footer>
+    <button id="scrollTopBtn" title="Go to top">↑</button>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const y = new Date().getFullYear();
+            const el = document.getElementById('footerYear');
+            if (el) el.textContent = y;
+        });
+    </script>
+
+    <!-- Voice Search Modal -->
+    <div id="voiceSearchModal" class="voice-search-modal">
+        <div class="voice-search-content">
+            <div class="voice-mic-icon">
+                <span class="material-symbols-outlined">mic</span>
+            </div>
+            <div class="voice-status-text" id="voiceStatusText">Listening...</div>
+            <div class="voice-transcript" id="voiceTranscript">Say something...</div>
+            <button class="voice-close-btn" onclick="stopVoiceSearch()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Mini Player (Picture-in-Picture) -->
+    <div id="miniPlayer" class="mini-player" style="display: none;">
+        <div class="mini-player-header" id="miniPlayerHeader">
+            <span class="mini-player-title" id="miniPlayerTitle">Now Playing</span>
+            <div class="mini-player-controls">
+                <button class="mini-control-btn" onclick="maximizeMiniPlayer()" title="Maximize"
+                    aria-label="Maximize video">
+                    <span class="material-symbols-outlined">open_in_full</span>
+                </button>
+                <button class="mini-control-btn" onclick="closeMiniPlayer()" title="Close"
+                    aria-label="Close mini player">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+        </div>
+        <div class="mini-player-video">
+            <!-- iframe will be moved here dynamically -->
+        </div>
+    </div>
+    <div id="chat-popup">
+        <div id="chat-header">Moody</div>
+        <div id="chat-body">
+            <div class="message bot">👋 Hello! What kind of videos would you like to watch today?</div>
+        </div>
+        <div id="chat-input-area">
+            <input id="chat-input" type="text" placeholder="Type your message...">
+            <button id="chat-send">Send</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="chatbot/chatbot.js"></script>
+
 </body>
 
 </html>
