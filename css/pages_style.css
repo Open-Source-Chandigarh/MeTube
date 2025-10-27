@@ -15,13 +15,6 @@
   font-size: 1.5em;
   font-weight: bold;
   letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.nav-left a:hover .logo {
-  color: #ff0000;
-  transform: scale(1.05);
 }
 
 .nav-right a {
