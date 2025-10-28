@@ -1,0 +1,179 @@
+/* ===== Chatbot Core Styling ===== */
+
+/* Chatbot Icon beside the Search Bar */
+#chat-inline-icon {
+  background: linear-gradient(135deg, #0026ff, #ff0000);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  margin-left: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+#chat-inline-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
+}
+
+/* ===============================
+   Chat Popup (Bottom Right Corner)
+   =============================== */
+#chat-popup {
+  display: none;
+  flex-direction: column;
+  position: absolute; /* 🔄 switched from fixed */
+  bottom: 20px;       /* aligns within main container area */
+  right: 40px;
+  width: 360px;
+  background: #0e0e0e;
+  border: 2px solid #ff0000;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 9000;
+  transform: translateY(40px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+/* Popup open animation */
+#chat-popup.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Header of chatbot */
+#chat-header {
+  background: linear-gradient(135deg, #ff0000, #0026ff);
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* ===============================
+   Chat Body Styling
+   =============================== */
+#chat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 340px;
+  padding: 15px;
+  background: #1c1c1c;
+  overflow-y: auto;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Scrollbar */
+#chat-body::-webkit-scrollbar {
+  width: 8px;
+}
+#chat-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+/* Chat Messages */
+.message {
+  display: inline-block;
+  max-width: 85%;              /* Limit bubble width */
+  width: fit-content;          /* Adjusts to content size */
+  padding: 10px 14px;
+  border-radius: 15px;
+  line-height: 1.5;
+  font-size: 14px;
+  white-space: normal;         /* ✅ allow wrapping */
+  word-wrap: break-word;       /* ✅ break long words */
+  overflow-wrap: break-word;   /* ✅ prevent text overflow */
+  margin-bottom: 6px;
+}
+
+.bot {
+  align-self: flex-start;
+  background: #2d2d2d;
+  color: #f1f1f1;
+  border-left: 3px solid #ff0000;
+  border-bottom-left-radius: 3px;
+  word-break: break-word;
+}
+
+.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #0026ff, #0040ff);
+  color: #fff;
+  border-bottom-right-radius: 3px;
+}
+
+.bot pre {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #ff0000;
+  padding: 8px;
+  border-radius: 5px;
+  color: #cfcfcf;
+  font-family: monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ===============================
+   Input Area Styling
+   =============================== */
+#chat-input-area {
+  display: flex;
+  background: #fff;
+  border-top: 2px solid #ff0000;
+}
+#chat-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 14px;
+}
+#chat-send {
+  border: none;
+  background: linear-gradient(135deg, #ff0000, #0026ff);
+  color: white;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+#chat-send:hover {
+  opacity: 0.85;
+}
+
+/* ===============================
+   Navbar Alignment Support
+   =============================== */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===============================
+   Fix for Nav Influence – Always
+   Position Chat Popup to Bottom Right
+   =============================== */
+body #chat-popup {
+  position: fixed !important;
+  bottom: 100px !important;
+  right: 40px !important;
+  margin: 0 !important;
+  z-index: 99999 !important;
+}
